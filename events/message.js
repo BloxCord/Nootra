@@ -93,15 +93,15 @@ exports.run = async (client, message) => {
                 if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
 
                 const yes = client.emojis.find('id', '435603381818490880')
-                if (message) message.react(yes.id)
+                if (message) message.react(yes.id).then(() => message.delete(2000))
             } catch (err) {
                 try {
                     const no = client.emojis.find('id', '435603381269037057')
-                    if (message) message.react(no.id)
-                    message.channel.send(clean(err), {
+                    if (message) message.react(no.id).then(() => message.delete(2000))
+                    return message.channel.send(clean(err), {
                         code: "js"
                     });
-                    return
+
                 } catch (error) {
                     return message.channel.send(error)
                 }
@@ -162,7 +162,7 @@ exports.run = async (client, message) => {
             }
             const embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                .setAuthor('Play', 'https://i.imgur.com/yRWZBEC.png')
                 .setDescription(`Added "${playlist.title}" to queue!`)
             return channel.send(embed);
         } else {
@@ -178,7 +178,7 @@ exports.run = async (client, message) => {
             }
             return handleVideo(video, message, voiceChannel);
         }
-        message.delete(2000)
+        message.delete()
     } else if (command === 'skip' && msg.startsWith(config.prefix)) {
 
         var userrole = user.roles
@@ -190,14 +190,15 @@ exports.run = async (client, message) => {
 
             const embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                .setAuthor('Skip', 'https://cdn.discordapp.com/attachments/418723354963476500/440139111085637633/skip-forward-365508ed23d37c2b-512x512.png')
                 .setDescription(`Song skipped \`⏩\``)
             message.channel.send(embed)
             serverQueue.connection.dispatcher.end()
             message.delete(2000)
             return undefined;
 
-        } else return message.reply("you don't have access to this command.")
+        } else return message.reply("this command is restricted")
+        message.delete()
     } else if (command === 'stop' && msg.startsWith(config.prefix)) {
 
         var userrole = user.roles
@@ -211,30 +212,31 @@ exports.run = async (client, message) => {
 
             const embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                .setAuthor('Stop', 'https://cdn.discordapp.com/attachments/418723354963476500/440138995075121155/ban-stop-icon-22.png')
                 .setDescription(`Stop asked by ${message.author.username} \`🚫\``)
             message.channel.send(embed)
             serverQueue.connection.dispatcher.end()
             message.delete(2000)
             return undefined
 
-        } else return message.reply("you don't have access to this command.")
+        } else return message.reply("this command is restricted")
+        message.delete()
     } else if (command === 'volume' && msg.startsWith(config.prefix)) {
 
         var userrole = user.roles
         if (userrole === null) return
 
         var volume = ''
-        if (serverQueue.volume <= 10) var volume = '[▬](https://github.com/Notavone/)▬▬▬▬▬▬▬▬▬'
-        else if (serverQueue.volume <= 20) var volume = '[▬▬](https://github.com/Notavone/)▬▬▬▬▬▬▬▬'
-        else if (serverQueue.volume <= 30) var volume = '[▬▬▬](https://github.com/Notavone/)▬▬▬▬▬▬▬'
-        else if (serverQueue.volume <= 40) var volume = '[▬▬▬▬](https://github.com/Notavone/)▬▬▬▬▬▬'
-        else if (serverQueue.volume <= 50) var volume = '[▬▬▬▬▬](https://github.com/Notavone/)▬▬▬▬▬'
-        else if (serverQueue.volume <= 60) var volume = '[▬▬▬▬▬▬](https://github.com/Notavone/)▬▬▬▬'
-        else if (serverQueue.volume <= 70) var volume = '[▬▬▬▬▬▬▬](https://github.com/Notavone/)▬▬▬'
-        else if (serverQueue.volume <= 80) var volume = '[▬▬▬▬▬▬▬▬](https://github.com/Notavone/)▬▬'
-        else if (serverQueue.volume <= 90) var volume = '[▬▬▬▬▬▬▬▬▬](https://github.com/Notavone/)▬'
-        else if (serverQueue.volume <= 100) var volume = '[▬▬▬▬▬▬▬▬▬▬](https://github.com/Notavone/)'
+        if (serverQueue.volume <= 10) var volume = '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬'
+        else if (serverQueue.volume <= 20) var volume = '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬'
+        else if (serverQueue.volume <= 30) var volume = '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬'
+        else if (serverQueue.volume <= 40) var volume = '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬'
+        else if (serverQueue.volume <= 50) var volume = '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬'
+        else if (serverQueue.volume <= 60) var volume = '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬'
+        else if (serverQueue.volume <= 70) var volume = '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬'
+        else if (serverQueue.volume <= 80) var volume = '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬'
+        else if (serverQueue.volume <= 90) var volume = '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬'
+        else if (serverQueue.volume <= 100) var volume = '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)'
 
         if (message.author.id === config.admin || userrole.find('name', "DJ")) {
 
@@ -243,52 +245,53 @@ exports.run = async (client, message) => {
             if (!args[0]) {
                 const embed = new Discord.RichEmbed()
                     .setColor("FF0000")
-                    .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                    .setAuthor('Volume', 'https://i.imgur.com/yRWZBEC.png')
                     .setDescription(`
-Actual volume : **${serverQueue.volume}%** \`🔊\`
-${volume}
+Actual volume : **${serverQueue.volume}%**
+\`[1]\` ${volume} \`[100] 🔊\`
                     `)
                 return message.channel.send(embed)
-            } else if (args[0] < 1 || args[0] > 100) return message.reply("You don't have access to those values (Authorized values : 1 to 100)")
+            } else if (args[0] < 1 || args[0] > 100) return message.reply("you don't have access to those values (Authorized values : 1 to 100)")
             else {
                 serverQueue.volume = args[0]
                 serverQueue.connection.dispatcher.setVolume(args[0] / 100);
 
                 var newvolume = ''
-                if (serverQueue.volume <= 10) var newvolume = '[▬](https://github.com/Notavone/)▬▬▬▬▬▬▬▬▬'
-                else if (serverQueue.volume <= 20) var newvolume = '[▬▬](https://github.com/Notavone/)▬▬▬▬▬▬▬▬'
-                else if (serverQueue.volume <= 30) var newvolume = '[▬▬▬](https://github.com/Notavone/)▬▬▬▬▬▬▬'
-                else if (serverQueue.volume <= 40) var newvolume = '[▬▬▬▬](https://github.com/Notavone/)▬▬▬▬▬▬'
-                else if (serverQueue.volume <= 50) var newvolume = '[▬▬▬▬▬](https://github.com/Notavone/)▬▬▬▬▬'
-                else if (serverQueue.volume <= 60) var newvolume = '[▬▬▬▬▬▬](https://github.com/Notavone/)▬▬▬▬'
-                else if (serverQueue.volume <= 70) var newvolume = '[▬▬▬▬▬▬▬](https://github.com/Notavone/)▬▬▬'
-                else if (serverQueue.volume <= 80) var newvolume = '[▬▬▬▬▬▬▬▬](https://github.com/Notavone/)▬▬'
-                else if (serverQueue.volume <= 90) var newvolume = '[▬▬▬▬▬▬▬▬▬](https://github.com/Notavone/)▬'
-                else if (serverQueue.volume <= 100) var newvolume = '[▬▬▬▬▬▬▬▬▬▬](https://github.com/Notavone/)'
+                if (serverQueue.volume <= 10) var newvolume = '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬'
+                else if (serverQueue.volume <= 20) var newvolume = '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬'
+                else if (serverQueue.volume <= 30) var newvolume = '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬'
+                else if (serverQueue.volume <= 40) var newvolume = '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬'
+                else if (serverQueue.volume <= 50) var newvolume = '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬'
+                else if (serverQueue.volume <= 60) var newvolume = '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬'
+                else if (serverQueue.volume <= 70) var newvolume = '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬'
+                else if (serverQueue.volume <= 80) var newvolume = '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬'
+                else if (serverQueue.volume <= 90) var newvolume = '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬'
+                else if (serverQueue.volume <= 100) var newvolume = '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)'
 
                 const embed = new Discord.RichEmbed()
                     .setColor("FF0000")
-                    .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                    .setAuthor('Volume', 'https://i.imgur.com/yRWZBEC.png')
                     .setDescription(`
-Volume is now set at **${args[0]}%** \`🔊\`
-${newvolume}
+Volume is now set at **${args[0]}%**
+\`[1]\` ${newvolume} \`[100] 🔊\`
                     `)
                 return message.channel.send(embed)
             }
             message.delete(2000)
 
-        } else return message.reply("you don't have access to this command.")
+        } else return message.reply("this command is restricted")
+        message.delete()
     } else if (command === 'now' && msg.startsWith(config.prefix)) {
 
         if (!serverQueue) return message.reply("nothing's playing.")
 
         const embed = new Discord.RichEmbed()
             .setColor("FF0000")
-            .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
-            .addField('Actually:', `${serverQueue.songs[0].title} \`🔊\``)
+            .setAuthor('Now', 'https://i.imgur.com/yRWZBEC.png')
+            .addField('Now playing:', `${serverQueue.songs[0].title} \`🔊\``)
             .setImage(`https://i.ytimg.com/vi/${serverQueue.songs[0].id}/maxresdefault.jpg`, serverQueue.songs[0].url, 100, 100)
         return channel.send(embed)
-        message.delete(2000)
+        message.delete()
     } else if (command === 'queue' && msg.startsWith(config.prefix)) {
 
         if (!serverQueue) return message.reply("nothing's playing.")
@@ -303,18 +306,15 @@ ${newvolume}
         for (i = 0, len = longArray.length; i < len; i += 10) {
             shortArrays.push(longArray.slice(i, i + 10));
         }
-        for (i = 0, len = shortArrays.length; i < len; i++) {
-
-        }
 
         const embed = new Discord.RichEmbed()
             .setColor("FF0000")
-            .setAuthor('Music : Queue', 'https://i.imgur.com/yRWZBEC.png')
+            .setAuthor('Queue', 'https://cdn.discordapp.com/attachments/418723354963476500/440138556699181057/layers.png')
             .setDescription(shortArrays[page - 1].map(song => `${song.title}`))
-            .setFooter(`Viewing page ${page} of ${shortArrays.length}`)
+        if (shortArrays.length > 1) embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`)
         channel.send(embed).then(msg => {
-            msg.react('⏪').then(r => {
-                msg.react('⏩')
+            if (shortArrays.length > 1) msg.react('⏪').then(() => {
+                msg.react('🛑').then(() => msg.react('⏩'))
             })
 
             const backwards = msg.createReactionCollector((reaction) => reaction.emoji.name === '⏪', {
@@ -325,8 +325,11 @@ ${newvolume}
                 time: ms('1day')
             });
 
-            forwards.on('end', msg => msg.clearReactions())
-            backwards.on('end', msg => msg.clearReactions())
+            const page1 = msg.createReactionCollector((reaction) => reaction.emoji.name === '🛑', {
+                time: ms('1day')
+            });
+
+            page1.on('end', msg => msg.clearReactions())
 
             function backward_reset() {
                 embed.setDescription(shortArrays[page - 1].map(song => `${song.title}`));
@@ -335,6 +338,12 @@ ${newvolume}
             }
 
             function forward_reset() {
+                embed.setDescription(shortArrays[page - 1].map(song => `${song.title}`));
+                embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
+                msg.edit(embed)
+            }
+
+            function page1_reset() {
                 embed.setDescription(shortArrays[page - 1].map(song => `${song.title}`));
                 embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
                 msg.edit(embed)
@@ -358,9 +367,18 @@ ${newvolume}
                 } else return;
             })
 
+            page1.on('collect', r => {
+                if (user.id !== config.id) {
+                    if (page === 1) return;
+                    page = 1
+                    page1_reset()
+                    r.remove(user.id)
+                } else return;
+            })
+
         })
 
-        message.delete(2000)
+        message.delete()
 
     } else if (command === 'pause' && msg.startsWith(config.prefix)) {
 
@@ -375,10 +393,10 @@ ${newvolume}
 
             const embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
-                .setDescription(`Lecture paused by ${message.author.username}`)
+                .setAuthor('Pause', 'https://cdn.discordapp.com/attachments/418723354963476500/440138092242796548/Pause-Normal-Red-icon.png')
+                .setDescription(`Stream paused by ${message.author.username}`)
             return message.channel.send(embed)
-            message.delete(2000)
+            message.delete()
         }
     } else if (command === 'resume' && msg.startsWith(config.prefix)) {
 
@@ -394,30 +412,29 @@ ${newvolume}
 
             const embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
-                .setDescription(`Lecture resume by ${message.author.username}`)
+                .setAuthor('Resume', 'https://cdn.discordapp.com/attachments/418723354963476500/440138038941712406/580b57fcd9996e24bc43c4fa.png')
+                .setDescription(`Stream resumed by ${message.author.username}`)
             return message.channel.send(embed)
-            message.delete(2000)
+            message.delete()
         }
     } else if (command === 'repeat' && msg.startsWith(config.prefix)) {
 
         if (args[0] === 'on') {
             const true_embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                .setAuthor('Repeat', 'https://cdn.discordapp.com/attachments/418723354963476500/440137725748707329/repeat.png')
                 .setDescription(`**Repeat mode : on** \`✅\``)
             varrepeat = true
             message.channel.send(true_embed)
         } else if (args[0] === 'off') {
             const false_embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                .setAuthor('Repeat', 'https://cdn.discordapp.com/attachments/418723354963476500/440137725748707329/repeat.png')
                 .setDescription(`**Repeat mode : off** \`✅\``)
             varrepeat = false
             message.channel.send(false_embed)
         }
     }
-
 
 }
 
@@ -456,7 +473,7 @@ async function handleVideo(video, message, voiceChannel, playlist = false) {
         else {
             const embed = new Discord.RichEmbed()
                 .setColor("FF0000")
-                .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+                .setAuthor('Play', 'https://i.imgur.com/yRWZBEC.png')
                 .setDescription(`\`${song.title}\` added to queue !`)
             return message.channel.send(embed)
         }
@@ -481,7 +498,10 @@ function play(guild, song) {
                 .setColor("FF0000")
                 .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
                 .setDescription(`Queue ended.`)
-            if (!serverQueue) return message.channel.send(embed)
+            if (!serverQueue) {
+                voiceChannel.leave()
+                return message.channel.send(embed)
+            }
             if (varrepeat === true) play(guild, serverQueue.songs[0])
             else {
                 serverQueue.songs.shift();
@@ -490,6 +510,7 @@ function play(guild, song) {
         } catch (error) {
             console.log(error)
             return espion.new_error(client, error)
+            voiceChannel.leave()
         }
     })
     dispatcher.on('error', error => {
@@ -499,7 +520,7 @@ function play(guild, song) {
     dispatcher.setVolume(serverQueue.volume / 100);
     const embed = new Discord.RichEmbed()
         .setColor("FF0000")
-        .setAuthor('Music', 'https://i.imgur.com/yRWZBEC.png')
+        .setAuthor('Play', 'https://i.imgur.com/yRWZBEC.png')
         .setTitle('Direct link')
         .setURL(song.url)
         .setImage(`https://i.ytimg.com/vi/${song.id}/maxresdefault.jpg`)

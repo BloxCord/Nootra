@@ -5,22 +5,20 @@ exports.timer = '2seconds';
 exports.run = (client, message) => {
 
     sql.open('./db/levels.sqlite')
-    let usermention = message.mentions.members.first();
+    var usermention = message.mentions.members.first();
 
-    let req = ''
-    let phrase = ''
     if (!usermention) {
-        req = message.author
-        phrase = 'You\'re'
+        var req = message.author
+        var phrase = 'You\'re'
     } else if (usermention) {
-        req = usermention.user
-        phrase = `${req.username} is`
+        var req = usermention.user
+        var phrase = `${req.username} is`
     }
 
     sql.get(`SELECT * FROM levels WHERE ID ="${req.id}"`).then((row) => {
 
-        let curLevelp = 0.1 * Math.sqrt(row.points + 1);
-        let curLevel = Math.floor(curLevelp)
+        var curLevelp = 0.1 * Math.sqrt(row.points + 1);
+        var curLevel = Math.floor(curLevelp)
         if (row.level - 1 <= 1) {
             if (curLevelp / row.level < 0.2) points = '`🔸🔸🔸🔸🔸🔸🔸🔸`'
             else if (curLevelp / row.level < 0.3) points = '`🔹🔸🔸🔸🔸🔸🔸🔸`'
