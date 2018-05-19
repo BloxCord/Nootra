@@ -2,17 +2,18 @@ const config = require('../config.js');
 const Discord = require('discord.js');
 exports.timer = '2seconds';
 exports.run = (client, message) => {
-    
-    let msg = message.content
+message ? message.delete(2000) : message;
+    var msg = message.content;
     // Command
     const args = msg.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    let content = args.join(' ');
-    let user_mention = message.mentions.members.first()
-    let user = message.member
+    var content = args.join(' ');
+    var UserMention = message.mentions.members.first();
+    var user = message.member;
 
     if (message.author.id === config.admin || (user.hasPermission('MANAGE_NICKNAMES'))) {
-        message.guild.members.get(user_mention.id).setNickname(content.replace(user_mention, ''));
-        message.delete(2000)
-    } else return message.reply("you don't have access to this command.")
-}
+        message.guild.members.get(UserMention.id).setNickname(content.replace(UserMention, ''));
+    } else {
+        return message.reply("you don't have access to this command.");
+    }
+};

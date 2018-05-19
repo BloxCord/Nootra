@@ -7,7 +7,7 @@ exports.run = (client, message, args) => {
     // EMBEDS
 
     //Utility
-    const utility_embed1 = new Discord.RichEmbed()
+    const UtilityEmbed1 = new Discord.RichEmbed()
         .setAuthor("Utility Commands", "https://i.imgur.com/UrMJXCI.png")
         .setColor('FF0000')
         .setThumbnail("https://i.imgur.com/UrMJXCI.png")
@@ -16,9 +16,9 @@ exports.run = (client, message, args) => {
 
 **${config.prefix}ask "question" :** Respond to question (e.g. ${config.prefix}ask Am I the best bot in here ? (obvious answer <:kappa:436421096841936896>))
 
-**${config.prefix}avatar @mention :** Respond with avatar (e.g. ${config.prefix}avatar @Nøtavøne#9488)
+**${config.prefix}avatar @mention :** Respond with avatar (e.g. ${config.prefix}avatar @RanDoMGUy#1210)
 
-**${config.prefix}bug "message":** Help me fix bugs (e.g. ${config.prefix}bug Y R U RUNNING)
+**${config.prefix}report :** Do this command to have the syntax
 
 **${config.prefix}changelog :** Send the changelog
 
@@ -28,16 +28,16 @@ exports.run = (client, message, args) => {
 
 **${config.prefix}level @mention :** Send level of the mentionned user (e.g. ${config.prefix}level @Nøtavøne)
 
-**${config.prefix}dm @mention "message" :** Send a dm to @mention (e.g. ${config.prefix}dm @Nøtavøne#9488 Hello I prefer Mee6 <:notlikethis:436424258470543370>)
-
-**${config.prefix}nick @mention "new name":** Change the name of @mention (e.g. ${config.prefix}nick @Nøtavøne#9488 Notavone) [You need : Manage Nicknames]
+**${config.prefix}nick @mention "new name":** Change the name of @mention (e.g. ${config.prefix}nick @RanDoMGUy#1210 Randomguy) [You need : Manage Nicknames]
 
 **${config.prefix}ping :** Send information about the time
 
 **${config.prefix}poll :** Do this command to have the syntax [You need : Mention Everyone]
-        `)
 
-    const utility_embed2 = new Discord.RichEmbed()
+**${config.prefix}solve :** Solve an equation (e.g. ${config.prefix}solve 3x + 1 = 10)
+        `);
+
+    const UtilityEmbed2 = new Discord.RichEmbed()
         .setColor('FF0000')
         .setFooter(config.name, config.avatar)
         .setTimestamp()
@@ -52,7 +52,7 @@ exports.run = (client, message, args) => {
 
 **${config.prefix}unshorten "link" :** Unshorten the specified link (e.g. ${config.prefix}unshorten <https://v.gd/113RANDOM453NUMBER41OR453LINK>)
 
-**${config.prefix}userinfo @mention :** Send some informations about @mention (e.g. ${config.prefix}userinfo @Nøtavøne#9488)
+**${config.prefix}userinfo @mention :** Send some informations about @mention (e.g. ${config.prefix}userinfo @RanDoMGUy#1210)
 
 **${config.prefix}botinfo :** Send informations about myself
 
@@ -63,9 +63,11 @@ exports.run = (client, message, args) => {
 **${config.prefix}emoji :** Do this command to have the syntax [You need : Manage Emojis]
 
 **${config.prefix}version :** Send informations about my current version
-        `)
+
+**${config.prefix}translate :** translate text from a language to another (e.g. ${config.prefix}translate english french My name is Jeff)
+        `);
     // Music
-    const music_embed = new Discord.RichEmbed()
+    const MusicEmbed = new Discord.RichEmbed()
         .setAuthor('Music Commands', 'https://i.imgur.com/yRWZBEC.png')
         .setColor('FF0000')
         .setFooter(config.name, config.avatar)
@@ -89,10 +91,10 @@ exports.run = (client, message, args) => {
 **${config.prefix}queue :** Send queue with interactive menu if there are more than 10 songs queued
 
 **${config.prefix}volume "1/100" :** Change actual volume from 1 to 100 (e.g. ${config.prefix}volume 42) [You need : DJ role]
-        `)
+        `);
 
     // Moderation
-    const moderation_embed = new Discord.RichEmbed()
+    const ModerationEmbed = new Discord.RichEmbed()
         .setAuthor("Moderation Commands", "https://i.imgur.com/4zVsVKv.png")
         .setColor('FF0000')
         .setFooter(config.name, config.avatar)
@@ -110,9 +112,9 @@ exports.run = (client, message, args) => {
 **${config.prefix}tempmute @mention "time" :** Mute the mentionned user for the desired time amount (e.g. ${config.prefix}tempmute @Fckng_idiot_32 2years) [You need : Mute Members]
 
 **${config.prefix}unmute @mention :** Unmute the mentionned user (e.g. ${config.prefix}unmute @Mutedguy_74) [You need : Mute Members]
-        `)
+        `);
     // Fun
-    const fun_embed = new Discord.RichEmbed()
+    const FunEmbed = new Discord.RichEmbed()
         .setAuthor("Funny Commands", "https://i.imgur.com/5UQt1Qb.png")
         .setColor('FF0000')
         .setFooter(config.name, config.avatar)
@@ -132,29 +134,35 @@ exports.run = (client, message, args) => {
 **${config.prefix}cofee :** Send random dofee image
 
 **${config.prefix}cat :** Send random image of the devil (currently unavalaible, sorry)
-    `)
+
+**${config.prefix}joke :** Send random dad joke
+
+**${config.prefix}pat @mention :** Pat the mentionned user (e.g. ${config.prefix}pat @RanDoMGUy#1210)
+
+**${config.prefix}faker :** Send random informations
+    `);
 
     if (args[0] === 'utility') {
-        message.author.send(utility_embed1).then(() => message.author.send(utility_embed2));
+        message.author.send(UtilityEmbed1).then(() => message.author.send(UtilityEmbed2));
         message.delete(2000);
 
     } else if (args[0] === 'music') {
-        message.author.send(music_embed);
+        message.author.send(MusicEmbed);
         message.delete(2000);
 
     } else if (args[0] === 'mod') {
-        message.author.send(moderation_embed);
+        message.author.send(ModerationEmbed);
         message.delete(2000);
 
     } else if (args[0] === 'fun') {
-        message.author.send(fun_embed);
+        message.author.send(FunEmbed);
         message.delete(2000);
 
     } else {
-        message.author.send(utility_embed1).then(() => message.author.send(utility_embed2))
-        .then(() => message.author.send(fun_embed))
-        .then(() => message.author.send(moderation_embed))
-        .then(() => message.author.send(music_embed))
-        message.delete(2000)
-    }
-}
+        message.author.send(UtilityEmbed1).then(() => message.author.send(UtilityEmbed2))
+            .then(() => message.author.send(FunEmbed))
+            .then(() => message.author.send(ModerationEmbed))
+            .then(() => message.author.send(MusicEmbed));
+        message.delete(2000);
+    };
+};

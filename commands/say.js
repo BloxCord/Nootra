@@ -1,17 +1,16 @@
 const Discord = require("discord.js");
-config = require('../config.js');
+const config = require('../config.js');
+
 exports.timer = '4seconds';
-exports.run = (client, message) => {
-    // Var
+exports.run = (client, message, args) => {
+    message ? message.delete(2000) : message;
     var msg = message.content;
-    var channel = message.channel;
-    // Command
-    const args = msg.slice(config.prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
     var content = args.join(' ');
-    var user = message.member
+    var user = message.member;
+
     if (message.author.id === config.admin || user.hasPermission('MANAGE_MESSAGES')) {
-        channel.send(content);
-        message.delete();
-    } else return message.reply("you don't have access to this command.")
-}
+        message.channel.send(content);
+    } else {
+        return message.reply("you don't have access to this command.");
+    }
+};

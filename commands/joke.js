@@ -4,18 +4,16 @@ const superagent = require('superagent');
 
 exports.timer = '2seconds';
 exports.run = async (client, message) => {
-    message ? message.delete(2000) : message;
     var {
         body
     } = await superagent
-        .get('https://aws.random.cat/meow');
+        .get('https://icanhazdadjoke.com/slack');
 
     const embed = new Discord.RichEmbed()
-        .setAuthor('Random incarnation of the devil', 'https://png.icons8.com/cat_profile/dusk/50')
-        .setDescription(`Nothing under me ? Direct link [here](${body.file}) !`)
+        .setAuthor('Dad joke', 'https://cdn.discordapp.com/attachments/418723354963476500/440189682098110465/flat800x800075f.jpg.png')
         .setColor('FF0000')
-        .setImage(body.file)
+        .setDescription(body.attachments.map((a) => a.text))
         .setFooter(config.name, config.avatar);
-
+message ? message.delete(2000) : message;
     return message.channel.send(embed);
 };

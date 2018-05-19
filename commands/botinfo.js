@@ -1,28 +1,39 @@
 const config = require('../config.js');
 const Discord = require('discord.js');
+const os = require('os');
+const osutils = require('os-utils');
+const global = require('../function/global.js');
 
-exports.timer = '2seconds'
+exports.timer = '2seconds';
 exports.run = (client, message) => {
 
-    let status = client.users.get(config.id).presence.status
-    let status_emoji = ''
-    if (status === 'online') status_emoji = 'https://cdn.discordapp.com/emojis/435603484616818708.png'
-    else if (status === 'dnd') status_emoji = 'https://cdn.discordapp.com/emojis/435603483140292609.png'
-    else if (status === 'idle') status_emoji = 'https://cdn.discordapp.com/emojis/435603483173978123.png'
-    else if (status === 'offline') status_emoji = 'https://cdn.discordapp.com/emojis/435603483903655936.png'
-    else status_emoji = 'https://cdn.discordapp.com/emojis/435603483627094026.png'
-    let tag = client.users.find('id', config.admin).tag
+    message ? message.delete(2000) : message;
+    var status = client.users.get(config.id).presence.status;
+    var StatusEmoji = status === 'online' ? 'https://cdn.discordapp.com/emojis/435603484616818708.png' : status === 'dnd' ? 'https://cdn.discordapp.com/emojis/435603483140292609.png' : status === 'idle' ? 'https://cdn.discordapp.com/emojis/435603483173978123.png' : 'https://cdn.discordapp.com/emojis/435603483627094026.png';
+    var tag = client.users.find('id', config.admin).tag;
 
-    const bot_embed = new Discord.RichEmbed()
-    .setColor('FF0000')
-    .setAuthor(`${config.name} informations`, config.avatar)
-    .addField('Server count:', client.guilds.size, true)
-    .addField('Users count:', client.users.size, true)
-    .addField('Creator:', tag, true)
-    .addField('Version:', `${config.version}`, true)
-    .addField('Language:', 'Javascript', true)
-    .addField('Library:', `[discord.js](http://discord.js.org/)`, true)
-    .setFooter(`Status : ${status}`, status_emoji)
-    
-    message.channel.send(bot_embed)
-}
+    function processMemoryMB() {
+        var heap = process.memoryUsage().heapUsed;
+        var MB = heap / 1048576;
+        return Math.floor(MB);
+    }
+
+    var memusage = Math.round((os.freemem() * 100) / os.totalmem());
+
+    var usage = memusage <= 10 ?  '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬' : memusage <= 20 ?  '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬' : memusage <= 30 ?  '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬' : memusage <= 40 ?  '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬' : memusage <= 50 ?  '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬' : memusage <= 60 ?  '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬' : memusage <= 70 ?  '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬' : memusage <= 80 ?  '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬' : memusage <= 90 ?  '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬' :  '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)';
+
+    const BotEmbed = new Discord.RichEmbed()
+        .setColor('FF0000')
+        .setFooter(`Status : ${global.capitalizeArg(status)}`, StatusEmoji)
+        .addField(`${client.user.username}`, (`
+<:servers:440466171452719104> ${client.guilds.size}
+<:users:440466171712765970> ${client.users.size}
+<:dev:440466171029094400> ${tag}
+<:bot:436602778467696662> ${config.version}
+<:language:440466170852802568> Javascript
+<:library:440466171284815872> [discord.js](http://discord.js.org/)
+<:ram:440466171221770251> \`[0%]\` ${usage} \`[100%]\`
+`), false);
+
+    message.channel.send(BotEmbed);
+};

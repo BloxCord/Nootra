@@ -1,13 +1,12 @@
 {
   "name": "nootra",
-  "version": "0.16.2",
+  "version": "0.20.8",
   "description": "",
   "main": "server.js",
   "repository": "https://github.com/Notavone/Nootra",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "lint": "eslint"
+    "start": "node server.js"
   },
   "author": "notadev <notavone@gmail.com> (https://www.npmjs.com/~notadev)",
   "engines": {
@@ -16,22 +15,26 @@
   },
   "license": "MIT",
   "dependencies": {
-    "bufferutil": "^3.0.4",
+    "algebra.js": "^0.2.6",
+    "bufferutil": "^3.0.5",
     "discord.js": "^11.3.2",
     "eslint": "^4.19.1",
+    "faker": "^4.1.0",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^3.2.2-3",
     "fs": "0.0.1-security",
+    "google-translate-api": "^2.3.0",
     "libsodium-wrappers": "^0.7.3",
     "ms": "^2.1.1",
     "opusscript": "0.0.6",
+    "os-utils": "0.0.14",
     "semver": "^5.5.0",
-    "simple-youtube-api": "^5.0.1",
-    "sqlite": "^2.9.1",
+    "simple-youtube-api": "^5.0.2",
+    "sqlite": "^2.9.2",
     "strict-uri-encode": "^2.0.0",
-    "superagent": "^3.8.2",
+    "superagent": "^3.8.3",
     "vgd": "^1.1.4",
     "weather-js": "^2.0.0",
-    "ytdl-core": "^0.20.2"
+    "ytdl-core": "^0.20.4"
   }
 }
