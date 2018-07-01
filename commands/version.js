@@ -1,10 +1,13 @@
 const Discord = require("discord.js");
 const config = require('../config.js');
 const pack = require('../package.json');
+const global = require('../function/global.js');
 
 exports.timer = '10seconds';
-exports.run = (client, message) => {
-message ? message.delete(2000) : message;
+exports.run = (client, message, args) => {
+    
+    global.del(message, 5000);
+    
     const VersionEmbed = new Discord.RichEmbed()
         .addField('Version :', `
 <:bot:436602778467696662> ${config.version}

@@ -1,13 +1,13 @@
 const Discord = require('discord.js');
 const config = require('../config.js');
+const global = require('../function/global.js');
 
 exports.timer = '10seconds';
 exports.run = (client, message, args) => {
 
-    var user = message.member;
+    global.del(message, 5000);
 
-    if (message.author.id === config.amdin || user.hasPermission("MANAGE_EMOJIS")) {
-
+    if (message.author.id === config.amdin || message.member.hasPermission("MANAGE_EMOJIS")) {
         switch (args[0]) {
             case 'new':
                 try {

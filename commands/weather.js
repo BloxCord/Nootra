@@ -1,11 +1,13 @@
 const Discord = require('discord.js');
 const config = require('../config.js');
-const global = require('../function/global.js');
 const weather = require('weather-js');
+const global = require('../function/global.js');
 
 exports.timer = '40seconds';
 exports.run = (client, message, args) => {
-    message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
+    
     if (!args[0]) {
         return message.reply('please specify a city');
     }

@@ -1,6 +1,6 @@
 {
   "name": "nootra",
-  "version": "0.20.8",
+  "version": "0.25.0",
   "description": "",
   "main": "server.js",
   "repository": "https://github.com/Notavone/Nootra",
@@ -16,14 +16,18 @@
   "license": "MIT",
   "dependencies": {
     "algebra.js": "^0.2.6",
+    "ascii-art": "^1.4.3",
     "bufferutil": "^3.0.5",
     "discord.js": "^11.3.2",
     "eslint": "^4.19.1",
     "faker": "^4.1.0",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^3.2.2-3",
+    "fortnite": "^4.1.1",
     "fs": "0.0.1-security",
     "google-translate-api": "^2.3.0",
+    "i18n-iso-countries": "^3.6.3",
+    "jimp": "^0.2.28",
     "libsodium-wrappers": "^0.7.3",
     "ms": "^2.1.1",
     "opusscript": "0.0.6",
@@ -35,6 +39,7 @@
     "superagent": "^3.8.3",
     "vgd": "^1.1.4",
     "weather-js": "^2.0.0",
+    "world-cup-history": "^2.0.11",
     "ytdl-core": "^0.20.4"
   }
 }

@@ -3,5 +3,5 @@ exports.run = (client, e) => {
     if (e.startsWith('[ws] [connection]')) {
         return;
     }
-    console.log(`DEBUG : ${e.replace(censortoken, '~~REDACTED~~')}`);
+    console.log(`${e.replace(censortoken, '~~REDACTED~~')}`);
 };

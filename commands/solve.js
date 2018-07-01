@@ -1,10 +1,11 @@
 const al = require('algebra.js');
-const global = require('../function/global.js');
 const Discord = require('discord.js');
+const global = require('../function/global.js');
 
 exports.timer = '10seconds';
 exports.run = (client, message, args) => {
-message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
 
     args = args.join(' ').split('=');
     global.trim(args);

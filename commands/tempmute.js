@@ -2,10 +2,13 @@ const Discord = require('discord.js');
 const config = require('../config.js');
 const ms = require('ms');
 const espion = require('../function/espion.js');
+const global = require('../function/global.js');
 
 exports.timer = '2seconds';
 exports.run = async (client, message, args) => {
-message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
+    
     var usermention = message.mentions.members.first();
     var muterole = message.guild.roles.find('name', "mute");
     var user = message.member;

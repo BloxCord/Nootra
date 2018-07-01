@@ -1,18 +1,18 @@
 const Discord = require("discord.js");
 const config = require('../config.js');
+const global = require('../function/global.js');
 
 exports.timer = '5seconds';
-exports.run = (client, message) => {
+exports.run = (client, message, args) => {
 
-    var msg = message.content;
-    var channel = message.channel;
+    global.del(message, 5000);
+    
     var usermention = message.mentions.members.first();
 
-    const AvatarEmbed = new Discord.RichEmbed()
+    const embed = new Discord.RichEmbed()
         .setDescription(`Direct link [here](${usermention.user.avatarURL})`)
         .setAuthor(`${usermention.user.username} avatar :`, 'http://png.icons8.com/customer/office/512')
         .setColor('FF0000')
         .setImage(usermention.user.avatarURL);
-    channel.send(AvatarEmbed);
-    message ? message.delete(2000) : message;
+    message.channel.send(embed);
 };

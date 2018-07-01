@@ -1,9 +1,12 @@
 const Discord = require('discord.js');
 const config = require('../config.js');
+const global = require('../function/global.js');
 
 exports.timer = '2seconds';
 exports.run = (client, message, args) => {
-message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
+    
     var user = message.member;
     var usermention = message.mentions.members.first();
     var usermention2 = message.mentions.members.last();

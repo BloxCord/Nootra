@@ -1,9 +1,12 @@
 const Discord = require("discord.js");
 const config = require('../config.js');
+const global = require('../function/global.js');
 
 exports.timer = '4seconds';
 exports.run = (client, message, args) => {
-    message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
+    
     var msg = message.content;
     var content = args.join(' ');
     var user = message.member;

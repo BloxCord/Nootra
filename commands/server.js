@@ -1,9 +1,12 @@
 const Discord = require('discord.js');
 const config = require('../config.js');
+const global = require('../function/global.js');
 
 exports.timer = '2seconds';
 exports.run = (client, message, args) => {
-message ? message.delete(2000) : message;
+
+    global.del(message, 5000);
+    
     if (args[0] === 'info') {
         const ServerinfoEmbed = new Discord.RichEmbed()
             .setColor('FF0000')
@@ -30,6 +33,15 @@ message ? message.delete(2000) : message;
                 .setAuthor(`Emojis from "${message.guild.name}"`)
                 .setDescription(emojiList);
             message.channel.send(embed);
+        }
+    } else if (args[0] === 'invite') {
+        try {
+            message.channel.createInvite()
+                .then((invite) => {
+                    message.channel.send(`Invitation for #${message.channel.name} : <${invite.url}>`);
+                });
+        } catch (error) {
+            return;
         }
     } else {
         return;

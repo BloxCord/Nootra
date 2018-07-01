@@ -1,8 +1,11 @@
 const Discord = require('discord.js');
+const global = require('../function/global.js');
 
 exports.timer = '20seconds';
 exports.run = (client, message, args) => {
-message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
+    
     var images = [
         'https://media1.tenor.com/images/116fe7ede5b7976920fac3bf8067d42b/tenor.gif',
         'https://media1.tenor.com/images/183ff4514cbe90609e3f286adaa3d0b4/tenor.gif?itemid=5518321',

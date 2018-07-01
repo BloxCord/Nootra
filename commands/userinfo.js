@@ -4,7 +4,9 @@ const global = require('../function/global.js');
 
 exports.timer = '10seconds';
 exports.run = (client, message, args) => {
-    message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
+    
     var msgmention = message.mentions.members.first();
     var datecrea = msgmention.user.createdAt.toString().split(' ');
     var status = msgmention.user.presence.status;

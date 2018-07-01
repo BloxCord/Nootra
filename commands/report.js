@@ -27,24 +27,32 @@ ${steps.map((step) => `- ${step}`).join('\n')}
 **Version :** ${version}
                 `);
             message.channel.send(new Discord.RichEmbed().setColor('FF0000').setDescription('Creating report in <#444781160162394112>.. <a:typing:436602781155983372>')).then((msg) => {
-                msg ? msg.delete(2000) : msg;
-                return espion.bug_report(client, report);
+                global.del(msg);
+                return espion.bug_report(client, message, report);
             });
         } else if (args[0] === 'aprove') {
-            if (message.member.roles.find('id', '444907830768828437')) {
-                const accept = client.emojis.find('id', '435603381818490880');
-                var content = args.join(' ').split(args[0]).pop().split(args[1]).pop().trim();
-                client.channels.find('id', '444781160162394112').fetchMessage(args[1]).then((msg) => {
-                    content ? msg.edit(msg.content + `\n - ${accept.toString()} ${message.author.tag} \`${content}\``) : msg.edit(msg.content + `\n - ${accept.toString()} ${message.author.tag}`);
-                });
+            try {
+                if (message.member.roles.find('id', '444907830768828437')) {
+                    const accept = client.emojis.find('id', '435603381818490880');
+                    var content = args.join(' ').split(args[0]).pop().split(args[1]).pop().trim();
+                    client.channels.find('id', '444781160162394112').fetchMessage(args[1]).then((msg) => {
+                        content ? msg.edit(msg.content + `\n - ${accept.toString()} (${global.newDate()}) ${message.author.tag} : \`${content}\``) : msg.edit(msg.content + `\n - ${accept.toString()} (${global.newDate()}) ${message.author.tag}`);
+                    });
+                }
+            } catch (error) {
+                return;
             }
         } else if (args[0] === 'deny') {
-            if (message.member.roles.find('id', '444907830768828437')) {
-                const deny = client.emojis.find('id', '435603381269037057');
-                var content = args.join(' ').split(args[0]).pop().split(args[1]).pop().trim();
-                client.channels.find('id', '444781160162394112').fetchMessage(args[1]).then((msg) => {
-                    content ? msg.edit(msg.content + `\n - ${deny.toString()} ${message.author.tag} \`${content}\``) : msg.edit(msg.content + `\n - ${deny.toString()} ${message.author.tag}`);
-                });
+            try {
+                if (message.member.roles.find('id', '444907830768828437')) {
+                    const deny = client.emojis.find('id', '435603381269037057');
+                    var content = args.join(' ').split(args[0]).pop().split(args[1]).pop().trim();
+                    client.channels.find('id', '444781160162394112').fetchMessage(args[1]).then((msg) => {
+                        content ? msg.edit(msg.content + `\n - ${deny.toString()} (${global.newDate()}) ${message.author.tag} : \`${content}\``) : msg.edit(msg.content + `\n - ${deny.toString()} (${global.newDate()}) ${message.author.tag}`);
+                    });
+                }
+            } catch (error) {
+                return;
             }
         } else {
             const embed = new Discord.RichEmbed()
@@ -58,7 +66,7 @@ Version = 1: Nøøtra_Release /2: Nøøtra_Dev /3: Other*
 
 **aprove/deny syntax :** \`${config.prefix}report aprove/deny REPORT_ID\`
 `);
-            return message.channel.send(embed).then((msg) => msg ? msg.delete(2000) : msg);
+            return message.channel.send(embed).then((msg) => global.del(msg));
         }
     };
 };

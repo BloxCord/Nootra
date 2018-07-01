@@ -1,7 +1,11 @@
 const shorten = require('vgd');
+const global = require('../function/global.js');
+
 exports.timer = '10seconds';
-exports.run = (client, message, args, tools) => {
-    message ? message.delete(2000) : message;
+exports.run = (client, message, args) => {
+    
+    global.del(message, 5000);
+    
     if (!args[1]) {
         shorten.shorten(args[0], (res) => {
             if (res.startsWith('Error:')) {

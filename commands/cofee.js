@@ -1,9 +1,13 @@
 const Discord = require('discord.js');
 const config = require('../config.js');
 const superagent = require('superagent');
+const global = require('../function/global.js');
 
 exports.timer = '2seconds';
-exports.run = async (client, message) => {
+exports.run = async (client, message, args) => {
+
+    global.del(message, 5000);
+
     var {
         body
     } = await superagent
@@ -18,6 +22,5 @@ Nothing under me ? Direct link [here](${body.file}) !
 `)
         .setImage(body.file)
         .setFooter(config.name, config.avatar);
-
     return message.channel.send(embed);
 };

@@ -1,83 +1,69 @@
 const Discord = require("discord.js");
+const global = require('../function/global.js');
+const config = require('../config.js');
+
 exports.timer = '2seconds';
-exports.run = (client, message) => {
-    message ? message.delete(2000) : message;
+exports.run = (client, message, args) => {
+    
+    global.del(message, 5000);
+    
     message.author.send(
         new Discord.RichEmbed()
         .setAuthor('Changelog', 'https://png.icons8.com/maintenance/dusk/50')
         .setColor('FF0000')
         .setDescription(`
 \`\`\`diff
-0.16.3 : 
-+ New command : joke
---- Rework style of eval
-
-0.16.4
---- Rework style of music
-
-0.16.5
---- Rework style of botinfo
---- Changelog text
-
-0.16.6
---- Espion-3.1.0
-
-0.17.0
-+ New command : pat
-+ New command : translate
-
-0.17.1 && 0.17.2
---- Fixed crash issues 
-
-0.18.0
---- Rewrite code with eslint
-
-0.18.1
-+ Make repeat work across servers
---- Fixed crash issues with stop and skip command
-
-0.18.3
-+ New command : love
---- Fixed crash issues when you want to clear more than 100 or less than 1 messages
-
-0.18.4
-+ New Functions file: global
-+ fahrenheit is now a global function
-
-0.19.0
-+ New command: faker 
-+ New Command: report
-- Old Command: bug
---- Change of the bug_report function
-
-0.19.3
-+ New command : invite
-
-0.19.4 (16/05/2018)
---- Fixed crash issues with ping command
---- I'll now add the date in the changelog
-
-0.19.5 (16/05/2018)
---- date is now a global function
---- Cleaned version command file
---- Updated multiple packages
-
 0.20.0 (16/05/2018)
 + New command : solve
 + trim is now a global function
---- Corriged syntax errors in espion & global functions
---- Fixed crash issues when deleting messages
+* Corriged syntax errors in espion & global functions
+* Fixed crash issues when deleting messages
 
 0.20.2 (18/05/2018)
---- Replaced "let" by "var" in some (all) files
---- Compacted weather command
+* Replaced "let" by "var" in some (all) files
+* Compacted weather command
 
 0.20.8 (19/05/2018)
 + getDate is now a global function
-+ Handling more processus
++ Handling more processuses
+* Espion-4.0.0
+* Updated contributing.md file
+* Fixed crash issues with the report command
 - Old command : dm
---- Espion-4.0.0
---- Updated contributing.md file
---- Fixed crash issues with the report command
+
+0.20.9 (20/05/2018)
++ deleting messages is now a global function
++ Every command is now called by a message and args 
+* Fixed crash issues when trying to delete messages without permissions
+
+0.21.0 (22/05/2018)
+* Changed from dropbox to github since it is no more supported by Heroku
+* Changed the way to indicate changes from "---" to "*" in the changelog
+
+0.21.1 (23/05/2018) && (27/05/2018)
++ Sending heartbeats every 2 minutes
+* invite command is now in the guild command
+* .gitignore
+* JSdoc in global functions
+- Old command : invite
+- travis.yml file
+
+0.22.0 (09/06/2018)
++ New command : fortnite
++ Stats on dev server
+
+0.23.0 (14/06/2018)
+* Compacted some commands
+* queue will now show a number for each song
+
+0.24.0 (19/06/2018)
++ New command : wcup
++ New command : ascii
+
+0.24.1 (29/06/2018)
+* Fixed a bug where ${config.name} would enter in a loop, repeating a command over and over
+
+0.25.0 (01/07/2018)
++ New command : playsearch
 \`\`\``));
 };

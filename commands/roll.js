@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const config = require('../config.js');
+const global = require('../function/global.js');
 
 exports.timer = '2seconds';
 exports.run = (client, message, args) => {

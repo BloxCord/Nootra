@@ -1,8 +1,12 @@
 const config = require('../config.js');
 const discord = require('discord.js');
+const global = require('../function/global.js');
+
 exports.timer = '1seconds';
 exports.run = (client, message, args) => {
-message ? message.delete(2000) : message;
+    
+    global.del(message, 5000);
+    
     var msg = message.content;
     var author = message.author;
     const GuildMember = message.member;
@@ -10,6 +14,10 @@ message ? message.delete(2000) : message;
     var role = message.guild.roles.find('name', content);
 
     if (author.id === config.admin) {
-        GuildMember.removeRole(role);
+        try {
+            GuildMember.removeRole(role);
+        } catch (error) {
+            return;
+        }
     }
 };

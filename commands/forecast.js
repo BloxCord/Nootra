@@ -5,6 +5,9 @@ const global = require('../function/global.js');
 
 exports.timer = '40seconds';
 exports.run = (client, message, args) => {
+    
+    global.del(message, 5000);
+    
     if (!args[0]) {
         return message.reply('please specify a city');
     }

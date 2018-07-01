@@ -1,11 +1,13 @@
 const Discord = require("discord.js");
 const config = require('../config.js');
-const global = require('../function/global.js');
 const ms = require('ms');
+const global = require('../function/global.js');
 
 exports.timer = '2seconds';
-exports.run = (client, message) => {
-message ? message.delete(2000) : message;
+exports.run = (client, message, args) => {
+    
+    global.del(message, 5000);
+    
     var quality = Math.round(client.ping) >= 150 ? 'bad \`😑\`' : Math.round(client.ping) >= 100 ? 'average \`😬\`' : 'good \`😀\`';
 
     const PingEmbed = new Discord.RichEmbed()

@@ -41,7 +41,7 @@ exports.run = async (client, message) => {
     if (message.channel.type === 'dm' && message.author.id !== config.id) {
         return author.send(ErrEmbed);
     }
-    if (author.bot === true) {
+    if (message.author.bot === true) {
         return;
     }
     if (message.length >= 1400) {
@@ -50,18 +50,21 @@ exports.run = async (client, message) => {
 
     if (config.id !== '416534697703636993') {
         if (message.channel.id === '444773528479334400') {
-            message ? message.delete(2000) : message;
+            message ? message.delete(2000) : null;
         }
     }
 
-        // Command
-        const args = msg.slice(config.prefix.length).trim().split(/ +/g);
+    // Command
+    const args = msg.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     var content = args.join(' ');
 
     espion.message_sent(client, message);
 
     // Command handler
+    function missioncomplete() {
+        return;
+    }
     if (msg.startsWith(config.prefix)) {
         try {
             var commandFile = require(`../commands/${command}.js`);
@@ -73,10 +76,12 @@ exports.run = async (client, message) => {
                         cooldown.add(`${author.id}-${command}`);
                     }
                     console.log(`${message.author.tag} ran ${command} command`);
-                    commandFile.run(client, message, args);
                     setTimeout(() => {
                         cooldown.delete(`${author.id}-${command}`);
                     }, ms(commandFile.timer));
+                    commandFile.run(client, message, args).then(() => {
+                        missioncomplete();
+                    });
                 }
             }
         } catch (error) {
@@ -86,7 +91,8 @@ exports.run = async (client, message) => {
 
     if (message.author.id === config.admin) {
         if (message.content.match(/^\`\`\`(js|javascript)\n/)) {
-            message ? message.delete(2000) : message;
+
+            global.del(message, 5000);
             const yes = client.emojis.find('id', '435603381818490880');
             const no = client.emojis.find('id', '435603381269037057');
             var code = message.content.split(/^\`\`\`(js|javascript)\n/).pop().split('```')[0];
@@ -154,11 +160,12 @@ exports.run = async (client, message) => {
     const voiceChannel = message.member.voiceChannel;
 
     if (command === 'play' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         if (!voiceChannel) {
             return message.reply("you're not in a vocal channel.");
         }
-        const permissions = voiceChannel.permissionsFor(message.client.user);
+        const permissions = voiceChannel.permissionsFor(message.member);
 
         if (!permissions.has('CONNECT')) {
             return message.reply("I can't connect in this channel.");
@@ -194,7 +201,8 @@ exports.run = async (client, message) => {
     }
 
     if (command === 'skip' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         var userrole = user.roles;
         if (userrole === null) {
             return;
@@ -219,7 +227,8 @@ exports.run = async (client, message) => {
     }
 
     if (command === 'stop' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         var userrole = user.roles;
         if (userrole === null) {
             return;
@@ -245,12 +254,12 @@ exports.run = async (client, message) => {
     }
 
     if (command === 'volume' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         var userrole = user.roles;
         if (userrole === null) {
             return;
         }
-        var volume = '';
         var volume = serverQueue.volume <= 10 ? '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬' : serverQueue.volume <= 20 ? '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬' : serverQueue.volume <= 30 ? '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬' : serverQueue.volume <= 40 ? '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬' : serverQueue.volume <= 50 ? '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬' : serverQueue.volume <= 60 ? '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬' : serverQueue.volume <= 70 ? '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬' : serverQueue.volume <= 80 ? '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬' : serverQueue.volume <= 90 ? '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬' : '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)';
         if (message.author.id === config.admin || userrole.find('name', "DJ")) {
             if (!message.member.voiceChannel) {
@@ -270,11 +279,12 @@ Actual volume : **${serverQueue.volume}%**
                 return message.channel.send(embed);
             } else if (args[0] < 1 || args[0] > 100) {
                 return message.reply("you don't have access to those values (Authorized values : 1 to 100)");
+            } else if (args[0] === NaN) {
+                return message.reply(`"${args[0]}" is not a number.`);
             } else {
                 serverQueue.volume = args[0];
                 serverQueue.connection.dispatcher.setVolume(args[0] / 100);
 
-                var newvolume = '';
                 var newvolume = serverQueue.volume <= 10 ? '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬' : serverQueue.volume <= 20 ? '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬' : serverQueue.volume <= 30 ? '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬' : serverQueue.volume <= 40 ? '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬' : serverQueue.volume <= 50 ? '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬' : serverQueue.volume <= 60 ? '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬' : serverQueue.volume <= 70 ? '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬' : serverQueue.volume <= 80 ? '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬' : serverQueue.volume <= 90 ? '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬' : '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)';
 
                 const embed = new Discord.RichEmbed()
@@ -293,7 +303,8 @@ Volume is now set at **${args[0]}%**
     }
 
     if (command === 'now' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         if (!serverQueue) {
             return message.reply("nothing's playing.");
         }
@@ -305,22 +316,19 @@ Volume is now set at **${args[0]}%**
         return channel.send(embed);
     }
     if (command === 'queue' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
+
         if (!serverQueue) {
             return message.reply("nothing's playing.");
         }
-        var index = 0;
+        var number = 1;
         var page = 1;
-        var longArray = serverQueue.songs;
-        var shortArrays = [],
-            i, len;
-        for (i = 0, len = longArray.length; i < len; i += 10) {
-            shortArrays.push(longArray.slice(i, i + 10));
-        }
+        var shortArrays = global.arrayList(serverQueue.songs, 10);
         const embed = new Discord.RichEmbed()
             .setColor("FF0000")
             .setAuthor('Queue', 'https://png.icons8.com/sorting/dusk/50')
-            .setDescription(shortArrays[page - 1].map((song) => `${song.title}`));
+            .setDescription(shortArrays[page - 1].map((song) => `**${number++}** : \`${song.title}\``));
         if (shortArrays.length > 1) {
             embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
         }
@@ -330,6 +338,7 @@ Volume is now set at **${args[0]}%**
                     msg.react('🛑').then(() => msg.react('⏩'));
                 });
             }
+
             const backwards = msg.createReactionCollector((reaction) => reaction.emoji.name === '⏪', {
                 time: ms('1day')
             });
@@ -339,66 +348,45 @@ Volume is now set at **${args[0]}%**
             const page1 = msg.createReactionCollector((reaction) => reaction.emoji.name === '🛑', {
                 time: ms('1day')
             });
-            page1.on('end', (msg) => msg.clearReactions());
 
-            function BackwardReset() {
-                embed.setDescription(shortArrays[page - 1].map((song) => `${song.title}`));
-                embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
-                msg.edit(embed);
-            }
-
-            function ForwardReset() {
-                embed.setDescription(shortArrays[page - 1].map((song) => `${song.title}`));
-                embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
-                msg.edit(embed);
-            }
-
-            function Page1Reset() {
-                embed.setDescription(shortArrays[page - 1].map((song) => `${song.title}`));
-                embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
-                msg.edit(embed);
-            }
             backwards.on('collect', (r) => {
-                if (user.id !== config.id) {
-                    if (page === 1) {
-                        return;
-                    }
-                    page--;
-                    BackwardReset();
-                    r.remove(user.id);
-                } else {
+                r.remove(user.id);
+                if (page === 1) {
                     return;
                 }
+                number = number - (10 + shortArrays[page - 1].length);
+                page--;
+                embed.setDescription(shortArrays[page - 1].map((song) => `**${number++}** : \`${song.title}\``));
+                embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
+                msg.edit(embed);
             });
             forwards.on('collect', (r) => {
-                if (user.id !== config.id) {
-                    if (page === shortArrays.length) {
-                        return;
-                    }
-                    page++;
-                    ForwardReset();
-                    r.remove(user.id);
-                } else {
+                r.remove(user.id);
+                if (page === shortArrays.length) {
                     return;
                 }
+                page++;
+                embed.setDescription(shortArrays[page - 1].map((song) => `**${number++}** : \`${song.title}\``));
+                embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
+                msg.edit(embed);
             });
             page1.on('collect', (r) => {
-                if (user.id !== config.id) {
-                    if (page === 1) {
-                        return r.remove(user.id);
-                    }
-                    page = 1;
-                    Page1Reset();
-                    r.remove(user.id);
-                } else {
+                r.remove(user.id);
+                if (page === 1) {
                     return;
                 }
+                number = 1;
+                page = 1;
+                embed.setDescription(shortArrays[page - 1].map((song) => `**${number++}** : \`${song.title}\``));
+                embed.setFooter(`Viewing page ${page} of ${shortArrays.length}`);
+                msg.edit(embed);
             });
         });
     }
 
     if (command === 'pause' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         var userrole = user.roles;
         if (userrole === null) {
             return;
@@ -417,7 +405,8 @@ Volume is now set at **${args[0]}%**
     }
 
     if (command === 'resume' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         var userrole = user.roles;
         if (userrole === null) {
             return;
@@ -436,7 +425,8 @@ Volume is now set at **${args[0]}%**
     }
 
     if (command === 'repeat' && msg.startsWith(config.prefix)) {
-        message ? message.delete(2000) : message;
+
+        global.del(message, 5000);
         if (args[0] === 'on') {
             const TrueEmbed = new Discord.RichEmbed()
                 .setColor("FF0000")
@@ -452,6 +442,41 @@ Volume is now set at **${args[0]}%**
             serverQueue.repeat = false;
             return message.channel.send(FalseEmbed);
         }
+    } else if (command === 'playsearch' && msg.startsWith(config.prefix)) {
+
+        global.del(message, 5000);
+
+        try {
+            var videos = await youtube.searchVideos(searchString, 10);
+            let index = 0;
+            const embed = new Discord.RichEmbed()
+                .setColor('FF0000')
+                .setAuthor('Song Selection', 'https://png.icons8.com/play/dusk/50')
+                .setDescription(`
+${videos.map((video2) => `**${++index}** : \`${video2.title}\``).join('\n')}
+
+Please provide a value to select one of the search results ranging from 1-10.        
+`);
+            message.channel.send(embed).then((selectionmsg) => {global.del(selectionmsg, 22000);});
+            try {
+                var response = await message.channel.awaitMessages((msg2) => msg2.content >= 1 && msg2.content <= 10, {
+                    maxMatches: 1,
+                    time: 20000,
+                    errors: ['time']
+                });
+            } catch (err) {
+                return message.channel.send('No or invalid value entered, cancelling video selection.').then(((errmsg) => {
+                    global.del(errmsg, 2000);
+                }));
+            }
+            const videoIndex = parseInt(response.first().content);
+            var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+        } catch (err) {
+            return message.channel.send('🆘 I could not obtain any search results.').then((errmsg) => {
+                global.del(errmsg, 2000);
+            });
+        }
+        return handleVideo(video, message, voiceChannel);
     }
 
     async function handleVideo(video, message, voiceChannel, playlist = false) {
@@ -510,18 +535,11 @@ Volume is now set at **${args[0]}%**
         }));
         dispatcher.on('end', () => {
             try {
-                if (!serverQueue) {
-                    const embed = new Discord.RichEmbed()
-                        .setColor("FF0000")
-                        .setAuthor('Music', 'https://png.icons8.com/end/dusk/50')
-                        .setDescription(`Queue ended.`);
-                    serverQueue.voiceChannel.leave();
-                    return message.channel.send(embed);
-                } else if (serverQueue.repeat === true) {
-                    play(guild, serverQueue.songs[0]);
+                if (serverQueue.repeat === true) {
+                    return play(guild, serverQueue.songs[0]);
                 } else {
                     serverQueue.songs.shift();
-                    play(guild, serverQueue.songs[0]);
+                    return play(guild, serverQueue.songs[0]);
                 }
             } catch (error) {
                 serverQueue.voiceChannel.leave();
@@ -532,7 +550,7 @@ Volume is now set at **${args[0]}%**
         dispatcher.on('error', (error) => {
             console.log(error);
             espion.new_error(client, error);
-            return message.channel.send(`I had to stop because :\n\`\`\`${error}\`\`\``);
+            return serverQueue.textChannel.send(`I had to stop playing music because :\n\`\`\`${error}\`\`\``);
         });
         dispatcher.setVolume(serverQueue.volume / 100);
         const embed = new Discord.RichEmbed()
@@ -545,5 +563,4 @@ Volume is now set at **${args[0]}%**
             .setTimestamp();
         return serverQueue.textChannel.send(embed);
     }
-
 };
