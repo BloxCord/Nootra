@@ -1,4 +1,4 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const discord = require('discord.js');
 const global = require('../function/global.js');
 
@@ -10,13 +10,13 @@ exports.run = (client, message, args) => {
     var author = message.author;
     const GuildMember = message.member;
     var content = args.join(' ');
-    var role = message.guild.roles.find('name', content);
+    var role = message.guild.roles.find((role) => role.name === content);
 
     if (author.id === config.admin) {
         try {
             GuildMember.addRole(role);
         } catch (error) {
-            return;
+
         }
     }
 };

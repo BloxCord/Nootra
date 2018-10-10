@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const espion = require('../function/espion.js');
 
 exports.run = (client, member, guild) => {
@@ -7,7 +7,7 @@ exports.run = (client, member, guild) => {
     if (member.guild.id === '110373943822540800') {
         return;
     } else {
-        espion.member_remove(client, member, guild);
+        espion.memberRemove(client, member, guild);
     }
 
 };

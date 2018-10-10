@@ -1,33 +1,41 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const pack = require('../package.json');
 const ms = require('ms');
+const global = require('../function/global.js');
 
 exports.run = (client) => {
     client.user.setUsername(config.name);
     client.user.setActivity(config.version);
     client.user.setStatus('online');
-
-    console.log("Connexion...");
-    console.log(`
-Online as : ${config.name}
-Stats : ${client.users.size} Users, ${client.guilds.size} Servers
-
------Versions-----
-Bot_version : ${config.version}
-Espion_version : ${config.espion_version}
-Node_version : ${pack.engines.node}
-NPM_version : ${pack.engines.npm}
-discord.js_version: ${pack.dependencies['discord.js']}
-------------------
-`);
-
     var devStatus = client.users.get('416534697703636993').presence.status;
     var releaseStatus = client.users.get('416275248153886720').presence.status;
 
     devStatus = devStatus === 'online' ? "Dev : Online" : devStatus === 'dnd' ? "Dev : Debug" : "Dev : Offline";
-    releaseStatus = releaseStatus === 'online' ?  "Release : Online" : releaseStatus === 'dnd' ? "Release : Debug" : "Release : Offline";
+    releaseStatus = releaseStatus === 'online' ? "Release : Online" : releaseStatus === 'dnd' ? "Release : Debug" : "Release : Offline";
 
-    console.log(devStatus);
-    console.log(releaseStatus);
+    console.log(`
+Connection...
+Online as : ${config.name}
+-------Stat-------
+Users : ${client.users.size}
+Servers : ${client.guilds.size}
+-----Versions-----
+Bot Version : ${config.version}
+Espion Version : ${config.espionVersion}
+NodeJS Version : ${pack.engines.node}
+NPM Version : ${pack.engines.npm}
+discord.js Version : ${pack.dependencies['discord.js']}
+------Status------
+${devStatus}
+${releaseStatus}
+------------------
+ _   _                _                
+| \\ | |              | |
+|  \\| |  ___    ___  | |_  _ __   __ _ 
+| . \` | / _ \\  / _ \\ | __|| '__| / _\` |
+| |\\  || (_) || (_) || |_ | |   | (_| |
+\\_| \\_/ \\___/  \\___/  \\__||_|    \\__,_|
+`);
+
 };

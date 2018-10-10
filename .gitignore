@@ -1,6 +1,7 @@
 # files
 .eslintrc.json
-config.js
 
 # directories
+storage/
 node_modules/
+.vscode/

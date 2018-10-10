@@ -1,5 +1,5 @@
 const encode = require('strict-uri-encode');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 
 exports.timer = '2seconds';

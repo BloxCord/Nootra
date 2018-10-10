@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const superagent = require('superagent');
 const global = require('../function/global.js');
 
@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
             .setDescription(body.attachments.map((a) => a.text));
         return message.channel.send(embed);
     } catch (error) {
-        return;
+
     }
 
 };

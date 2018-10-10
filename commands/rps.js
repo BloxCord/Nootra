@@ -1,14 +1,11 @@
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 const config = require('../storage/globalSettings.js');
 const espion = require('../function/espion.js');
 const global = require('../function/global.js');
 
-exports.timer = '10seconds';
+exports.timer = '2seconds';
 exports.run = (client, message, args) => {
     
-    global.del(message, 5000);
-    
-    espion.newTodo(client, message, args);
-    message.reply(`Thank you for your help. [\`✅\`]`);
+
 
 };

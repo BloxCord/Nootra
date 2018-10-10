@@ -1,8 +1,10 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const Discord = require('discord.js');
 const os = require('os');
-const osutils = require('os-utils');
+const fs = require('fs');
 const global = require('../function/global.js');
+
+let serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
 
 exports.timer = '2seconds';
 exports.run = (client, message, args) => {
@@ -11,7 +13,7 @@ exports.run = (client, message, args) => {
 
     var status = client.users.get(config.id).presence.status;
     var StatusEmoji = status === 'online' ? 'https://cdn.discordapp.com/emojis/435603484616818708.png' : status === 'dnd' ? 'https://cdn.discordapp.com/emojis/435603483140292609.png' : status === 'idle' ? 'https://cdn.discordapp.com/emojis/435603483173978123.png' : 'https://cdn.discordapp.com/emojis/435603483627094026.png';
-    var tag = client.users.find('id', config.admin).tag;
+    var tag = client.users.find((user) => user.id === config.admin).tag;
 
     var memusage = Math.round((os.freemem() * 100) / os.totalmem());
 
@@ -28,6 +30,8 @@ exports.run = (client, message, args) => {
 <:language:440466170852802568> Javascript
 <:library:440466171284815872> [discord.js](http://discord.js.org/)
 <:ram:440466171221770251> \`[0%]\` ${usage} \`[100%]\`
+**__Server Prefix :__** ${serverSettings[message.guild.id].prefix}
+**__Server Language :__** ${serverSettings[message.guild.id].language}
 `), false);
     return message.channel.send(embed);
 };

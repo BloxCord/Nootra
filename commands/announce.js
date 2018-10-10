@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
+const fs = require('fs');
+
+let serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
 
 exports.timer = '2seconds';
 exports.run = (client, message, args) => {
@@ -14,7 +17,7 @@ exports.run = (client, message, args) => {
                 .setAuthor('Announce command', 'https://png.icons8.com/megaphone/office/100')
                 .setColor('FF0000')
                 .setTitle('Informations')
-                .setDescription(`**Syntax :** ${config.prefix}announce Message | everyone (true, false) | Image (optionnal)`);
+                .setDescription(`**Syntax :** ${serverSettings[message.guild.id].prefix}announce Message | everyone (true, false) | Image (optionnal)`);
             return message.channel.send(embed);
         } else {
             

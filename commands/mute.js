@@ -1,8 +1,11 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const ms = require('ms');
 const espion = require('../function/espion.js');
 const global = require('../function/global.js');
+const fs = require('fs');
+
+let serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
 
 exports.timer = '2seconds';
 exports.run = async (client, message, args) => {
@@ -11,10 +14,10 @@ exports.run = async (client, message, args) => {
 
     var usermention = message.mentions.members.first();
     var user = message.member;
-    var muterole = message.guild.roles.find('name', "mute");
+    var muteRole = message.guild.roles.find((role) => role.name === 'mute');
     if (message.author.id === config.admin || user.hasPermission('MUTE_MEMBERS')) {
         if (!usermention) {
-            return message.reply(`couldn't find this user, please do ${config.prefix}mute @mention`);
+            return message.reply(`couldn't find this user, please do ${serverSettings[message.guild.id].prefix}mute @mention`);
         }
         if (usermention.id === config.admin || usermention.id === config.id) {
             return;
@@ -22,24 +25,24 @@ exports.run = async (client, message, args) => {
         if (usermention.hasPermission("MUTE_MEMBERS")) {
             return message.reply(`can't mute, too powerful`);
         }
-        if (!muterole) {
+        if (!muteRole) {
             try {
-                muterole = await message.guild.createRole({
+                muteRole = await message.guild.createRole({
                     name: "mute",
                     permissions: []
                 });
                 message.guild.channels.forEach(async (channel, id) => {
-                    await channel.overwritePermissions(muterole, {
+                    await channel.overwritePermissions(muteRole, {
                         SEND_MESSAGES: false,
                         ADD_REACTIONS: false
                     });
                 });
             } catch (error) {
-                espion.new_error(client, error);
+                espion.newError(client, error, __filename);
             }
         }
 
-        await (usermention.addRole(muterole.id));
+        await (usermention.addRole(muteRole.id));
         message.channel.send(`${usermention.user.username} was muted by ${message.author.username}.`);
     } else {
         return message.reply("you don't have access to this command.");

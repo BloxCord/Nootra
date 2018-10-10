@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const superagent = require('superagent');
 const global = require('../function/global.js');
 
@@ -10,8 +10,7 @@ exports.run = async (client, message, args) => {
     try {
         var {
             body
-        } = await superagent
-            .get('https://random.dog/woof.json');
+        } = await superagent.get('https://random.dog/woof.json');
 
         const embed = new Discord.RichEmbed()
             .setAuthor('Random Doggo', 'https://png.icons8.com/dog/dusk/50')
@@ -20,6 +19,6 @@ exports.run = async (client, message, args) => {
             .setImage(body.url);
         return message.channel.send(embed);
     } catch (error) {
-        return;
+
     }
 };

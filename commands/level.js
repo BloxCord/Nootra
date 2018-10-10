@@ -1,4 +1,4 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const Discord = require('discord.js');
 const sql = require('sqlite');
 const global = require('../function/global.js');
@@ -8,19 +8,10 @@ exports.run = (client, message, args) => {
 
     global.del(message, 5000);
     
-    sql.open('./db/levels.sqlite');
-    var usermention = message.mentions.members.first();
-    var req;
-    
-    if (!usermention) {
-        req = message.author;
-        var phrase = 'You\'re';
-    } else {
-        req = usermention.user;
-        var phrase = `\`${req.username}\` is`;
-    }
+    sql.open('./storage/levels.sqlite');
+    var member = message.mentions.members.first() || message.member;
 
-    sql.get(`SELECT * FROM levels WHERE ID ="${req.id}"`).then((row) => {
+    sql.get(`SELECT * FROM levels WHERE ID ="${member.user.id}"`).then((row) => {
 
         var curLevelp = 0.1 * Math.sqrt(row.points + 1);
         var curLevel = Math.floor(curLevelp);
@@ -29,8 +20,8 @@ exports.run = (client, message, args) => {
 
         const LevelEmbed = new Discord.RichEmbed()
             .setColor('FF0000')
-            .setAuthor(req.username, req.avatarURL)
-            .addField(`\`📊\` **Level :**`, `${phrase} level **${row.level - 1}**`, false)
+            .setAuthor(member.user.username, member.user.avatarURL)
+            .addField(`\`📊\` **Level :**`, `${member.user.username} is level **${row.level - 1}**`, false)
             .addField(`\`🔷\` Points :`, points, false);
         return message.channel.send(LevelEmbed);
     });

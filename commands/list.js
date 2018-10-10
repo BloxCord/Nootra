@@ -1,7 +1,7 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const Discord = require('discord.js');
 const sql = require('sqlite');
-sql.open('./db/levels.sqlite');
+sql.open('./storage/levels.sqlite');
 const global = require('../function/global.js');
 
 exports.timer = '2seconds';
@@ -13,7 +13,7 @@ exports.run = (client, message, args) => {
         return message.channel.send("Vous n'avez pas accès à cette commande.");
     } else {
         message.channel.send({
-            file: './db/levels.sqlite'
+            file: './storage/levels.sqlite'
         });
-    };
+    }
 };

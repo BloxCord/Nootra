@@ -1,4 +1,4 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 const espion = require('../function/espion.js');
 const Discord = require('discord.js');
@@ -43,7 +43,7 @@ exports.run = (client, message, args) => {
             message.reply(global.lowerSentence(reason.message));
         })));
     } catch (error) {
-        return espion.new_error(client, error);
+        return espion.newError(client, error, __filename);
     }
 
 };

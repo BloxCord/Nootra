@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 
 exports.timer = '2seconds';
@@ -7,7 +7,7 @@ exports.run = (client, message, args) => {
     
     global.del(message, 5000);
     
-    var guild = client.guilds.find('id', args[1]);
+    var guild = client.guilds.find((guild) => guild.id === args[1]);
 
     if (message.author.id === config.admin) {
         if (args[0] === 'leave') {

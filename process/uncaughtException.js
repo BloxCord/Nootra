@@ -3,5 +3,5 @@ const espion = require('../function/espion.js');
 
 exports.run = (client, error) => {
     console.log(error);
-    return espion.new_error(client, error);
+    return espion.newError(client, error, __filename);
 };

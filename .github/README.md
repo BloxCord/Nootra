@@ -2,7 +2,7 @@
 
 Nøøtra discord bot, created by Nøtavøne, [Support](http://discord.gg/VucSArh)
 
-[![development_discord](https://discordapp.com/api/guilds/416532107939151872/widget.png?style=shield)](https://discord.gg/cSejg) ![nootra_ver](https://img.shields.io/badge/Nøøtra-0.25.0-blue.svg) ![npm_ver](https://img.shields.io/badge/npm-5.7.1-blue.svg) ![node_ver](https://img.shields.io/badge/node-8.9.4-blue.svg) ![license](https://img.shields.io/badge/license-MIT-red.svg)
+[![development_discord](https://discordapp.com/api/guilds/416532107939151872/widget.png?style=shield)](https://discord.gg/cSejg) ![nootra_ver](https://img.shields.io/badge/Nøøtra-1.0.2-blue.svg) ![npm_ver](https://img.shields.io/badge/npm-5.7.1-blue.svg) ![node_ver](https://img.shields.io/badge/node-8.9.4-blue.svg) ![license](https://img.shields.io/badge/license-MIT-red.svg)
 
 ## Getting Started
 

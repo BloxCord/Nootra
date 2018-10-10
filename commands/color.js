@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 
 exports.timer = '2seconds';
@@ -10,8 +10,8 @@ exports.run = (client, message, args) => {
     if (message.author.id === config.admin || message.member.hasPermission('MANAGE_ROLES')) {
         try {
             var colorServer = message.guild;
-            var roleid = args[0].split('<@&').pop().split('>');
-            var ColorRole = colorServer.roles.find("id", roleid[0]);
+            var roleId = args[0].split('<@&').pop().split('>');
+            var ColorRole = colorServer.roles.find((role) => role.id === roleId[0]);
 
             ColorRole.setColor(args[1]);
         } catch (error) {

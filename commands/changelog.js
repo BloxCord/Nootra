@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const global = require('../function/global.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 
 exports.timer = '2seconds';
 exports.run = (client, message, args) => {
@@ -13,12 +13,6 @@ exports.run = (client, message, args) => {
         .setColor('FF0000')
         .setDescription(`
 \`\`\`diff
-0.20.0 (16/05/2018)
-+ New command : solve
-+ trim is now a global function
-* Corriged syntax errors in espion & global functions
-* Fixed crash issues when deleting messages
-
 0.20.2 (18/05/2018)
 * Replaced "let" by "var" in some (all) files
 * Compacted weather command
@@ -65,5 +59,16 @@ exports.run = (client, message, args) => {
 
 0.25.0 (01/07/2018)
 + New command : playsearch
+
+0.25.1
++ New command : math
++ Espion now gather messages attachments(4.1.0)
+
+1.0.0
++ Serverside config
++ New command : settings
+* Fixing multiple camelCase issues
+* Adapted commands to fit new config
+* Minors & majors bug fixed
 \`\`\``));
 };

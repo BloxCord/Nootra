@@ -1,4 +1,6 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
+
+/*eslint-disable arrow-body-style*/
 
 var fixheure = config.id === '416534697703636993' ? 0 : config.fixheure;
 var date = new Date();
@@ -67,15 +69,35 @@ exports.lowerSentence = (string) => {
  * @param {number} timeout Timeout for the message to be deleted
  */
 exports.del = (message, timeout) => {
-    var deltimeout = timeout ? Number(timeout) : Number(2000);
-    var user = message.guild.members.find('id', config.id);
-    if (user.hasPermission('MANAGE_MESSAGES')) {
-        setTimeout(() => {
-            message.delete();
-        }, deltimeout);
-    } else {
+    try {
+        let deltimeout;
 
+        if (!timeout) {
+            deltimeout = 2000;
+        } else {
+            deltimeout = timeout;
+        }
+        var user = message.guild.me;
+        if (user.hasPermission('MANAGE_MESSAGES')) {
+            setTimeout(() => {
+                message.delete();
+            }, deltimeout);
+        }
+    } catch (error) {
+        return;
     }
+};
+
+/**
+ * Must be in an await function !
+ * @param {Number} ms 
+ */
+exports.sleep = (ms) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve;
+        }, ms);
+    });
 };
 
 /**
@@ -187,7 +209,7 @@ exports.leadingZero = (number) => {
  * @param {Number} emojiId Emoji's unique id
  */
 exports.searchEmoji = (client, emojiId) => {
-    var emoji = client.emojis.find('id', emojiId);
+    var emoji = client.emojis.find((emoji) => emoji.id === emojiId);
     return emoji;
 };
 

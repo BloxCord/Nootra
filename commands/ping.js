@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const ms = require('ms');
 const global = require('../function/global.js');
 

@@ -1,4 +1,4 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 
 exports.run = (client) => {
     console.log('DÉCONNEXION..');

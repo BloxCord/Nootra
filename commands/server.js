@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 
 exports.timer = '2seconds';
@@ -41,9 +41,9 @@ exports.run = (client, message, args) => {
                     message.channel.send(`Invitation for #${message.channel.name} : <${invite.url}>`);
                 });
         } catch (error) {
-            return;
+
         }
     } else {
-        return;
+
     }
 };

@@ -1,4 +1,4 @@
-const config = require('../config.js');
+const config = require('../storage/globalSettings.js');
 const Discord = require('discord.js');
 const fs = require('fs');
 const global = require('../function/global.js');
