@@ -19,10 +19,10 @@ Connection...
 Online as : ${config.name}
 -------Stat-------
 Users : ${client.users.size}
-Servers : ${client.guilds.size}
+Guilds : ${client.guilds.size}
 -----Versions-----
 Bot Version : ${config.version}
-Espion Version : ${config.espionVersion}
+Logger Version : ${config.loggerVersion}
 NodeJS Version : ${pack.engines.node}
 NPM Version : ${pack.engines.npm}
 discord.js Version : ${pack.dependencies['discord.js']}

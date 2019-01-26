@@ -1,25 +1,29 @@
-const Discord = require('discord.js');
 const config = require('../storage/globalSettings.js');
-const ms = require('ms');
-const espion = require('../function/espion.js');
+const logger = require('../function/logger.js');
 const global = require('../function/global.js');
 const fs = require('fs');
 
 let serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
 
-exports.timer = '2seconds';
-exports.run = async (client, message, args) => {
-    
-    global.del(message, 5000);
+module.exports = {
+    name: 'mute',
+    description: '',
+    guildOnly: true,
+    devOnly: false,
+    perms: ['MUTE_MEMBERS'],
+    type: 'moderation',
+    help: '',
+    cooldown: 5,
+    async execute(client, message, args) {
+        global.del(message, 5000);
 
-    var usermention = message.mentions.members.first();
-    var user = message.member;
-    var muteRole = message.guild.roles.find((role) => role.name === 'mute');
-    if (message.author.id === config.admin || user.hasPermission('MUTE_MEMBERS')) {
+        var usermention = message.mentions.members.first();
+        var user = message.member;
+        var muteRole = message.guild.roles.find((role) => role.name === 'mute');
         if (!usermention) {
             return message.reply(`couldn't find this user, please do ${serverSettings[message.guild.id].prefix}mute @mention`);
         }
-        if (usermention.id === config.admin || usermention.id === config.id) {
+        if (config.devs.includes(usermention.id) || usermention.id === config.id) {
             return;
         }
         if (usermention.hasPermission("MUTE_MEMBERS")) {
@@ -38,13 +42,11 @@ exports.run = async (client, message, args) => {
                     });
                 });
             } catch (error) {
-                espion.newError(client, error, __filename);
+                logger.newError(client, error, __filename);
             }
         }
 
         await (usermention.addRole(muteRole.id));
         message.channel.send(`${usermention.user.username} was muted by ${message.author.username}.`);
-    } else {
-        return message.reply("you don't have access to this command.");
     }
 };

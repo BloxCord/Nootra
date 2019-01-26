@@ -1,13 +1,18 @@
 const Discord = require('discord.js');
-const config = require('../storage/globalSettings.js');
 const fs = require('fs');
 
 let serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
 
-exports.timer = '2seconds';
-exports.run = (client, message, args) => {
-
-    if (message.author.id === config.admin || message.member.hasPermission('ADMINISTRATOR')) {
+module.exports = {
+    name: 'settings',
+    description: '',
+    guildOnly: true,
+    devOnly: false,
+    perms: ['ADMINISTRATOR'],
+    type: 'utility',
+    help: '',
+    cooldown: 5,
+    execute(client, message, args) {
         if (args[0] === 'prefix') {
             let oldPrefix = serverSettings[message.guild.id].prefix;
             serverSettings[message.guild.id].prefix = args[1];
@@ -40,23 +45,21 @@ ${oldLanguage}  **❯**  ${serverSettings[message.guild.id].language}
 `));
                 }
             });
-        }
-    } else if (args[0] === 'level') {
-        let oldState = serverSettings[message.guild.id].level;
-        serverSettings[message.guild.id].level = !serverSettings[message.guild.id].level
-        fs.writeFile('./storage/serverSettings.json', JSON.stringify(serverSettings), (err) => {
-            if (err) {
-                return console.log(err);
-            } else {
-                let state = serverSettings[message.guild.id].level === true ? 'on' : 'off';
-                return message.channel.send(new Discord.RichEmbed()
-                    .setColor('FF0000')
-                    .setDescription(`
+        } else if (args[0] === 'level') {
+            let oldState = serverSettings[message.guild.id].level;
+            serverSettings[message.guild.id].level = !serverSettings[message.guild.id].level;
+            fs.writeFile('./storage/serverSettings.json', JSON.stringify(serverSettings), (err) => {
+                if (err) {
+                    return console.log(err);
+                } else {
+                    let state = serverSettings[message.guild.id].level === true ? 'on' : 'off';
+                    return message.channel.send(new Discord.RichEmbed()
+                        .setColor('FF0000')
+                        .setDescription(`
 <:yes:435603381818490880> Levels are now ${state} !
 `));
-            };
-        })
-    } else {
-        return message.reply("you don't have access to this command");
+                }
+            });
+        }
     }
 };

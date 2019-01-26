@@ -2,14 +2,20 @@ const Discord = require('discord.js');
 const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 
-exports.timer = '2seconds';
-exports.run = (client, message, args) => {
+module.exports = {
+    name: 'poll',
+    description: '',
+    guildOnly: true,
+    devOnly: false,
+    perms: ['MENTION_EVERYONE'],
+    type: 'utility',
+    help: '',
+    cooldown: 5,
+    execute(client, message, args) {
+        global.del(message, 5000);
 
-    global.del(message, 5000);
-
-    var split = '|';
-    var user = message.member;
-    if (message.author.id === config.admin || user.hasPermission('MENTION_EVERYONE')) {
+        var split = '|';
+        var user = message.member;
         if (!args[0]) {
             const embed = new Discord.RichEmbed()
                 .setAuthor('Poll command')
@@ -28,54 +34,19 @@ exports.run = (client, message, args) => {
             .setFooter(config.name, config.avatar)
             .setThumbnail('http://survation.com/wp-content/uploads/2016/09/polleverywherelogo.png')
             .setTimestamp();
-        if (args[1]) {
-            embed.addField('Proposition n°1 :', args[1], false);
-        }
-        if (args[2]) {
-            embed.addField('Proposition n°2 :', args[2], false);
-        }
-        if (args[3]) {
-            embed.addField('Proposition n°3', args[3], false);
-        }
-        if (args[4]) {
-            embed.addField('Proposition n°4', args[4], false);
-        }
-        if (args[5]) {
-            embed.addField('Proposition n°5', args[5], false);
-        }
-        if (args[6]) {
-            embed.addField('Proposition n°6', args[6], false);
-        }
-        return message.channel.send(embed).then((message) => {
-            if (args[1]) {
-                message.react('1⃣').then(() => {
-                    if (args[2]) {
-                        message.react('2⃣').then(() => {
-                            if (args[2]) {
-                                message.react('2⃣').then(() => {
-                                    if (args[3]) {
-                                        message.react('3⃣').then(() => {
-                                            if (args[4]) {
-                                                message.react('4⃣').then(() => {
-                                                    if (args[5]) {
-                                                        message.react('5⃣').then(() => {
-                                                            if (args[6]) {
-                                                                message.react('6⃣');
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
+        if (args[1]) embed.addField('Proposition n°1 :', args[1], false);
+        if (args[2]) embed.addField('Proposition n°2 :', args[2], false);
+        if (args[3]) embed.addField('Proposition n°3', args[3], false);
+        if (args[4]) embed.addField('Proposition n°4', args[4], false);
+        if (args[5]) embed.addField('Proposition n°5', args[5], false);
+        if (args[6]) embed.addField('Proposition n°6', args[6], false);
+        return message.channel.send(embed).then(async (message) => {
+            if (args[1]) await message.react('1⃣');
+            if (args[2]) await message.react('2⃣');
+            if (args[3]) await message.react('3⃣');
+            if (args[4]) await message.react('4⃣');
+            if (args[5]) await message.react('5⃣');
+            if (args[6]) await message.react('6⃣');
         });
-    } else {
-        return message.reply("you don't have access to this command.");
     }
 };

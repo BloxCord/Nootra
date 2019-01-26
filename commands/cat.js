@@ -1,13 +1,18 @@
 const Discord = require('discord.js');
-const config = require('../storage/globalSettings.js');
 const superagent = require('superagent');
 const global = require('../function/global.js');
 
-exports.timer = '2seconds';
-exports.run = async (client, message, args) => {
-
-    global.del(message, 5000);
-    try {
+module.exports = {
+    name: 'cat',
+    description: '',
+    guildOnly: false,
+    devOnly: false,
+    perms: [],
+    type: 'fun',
+    help: '',
+    cooldown: 5,
+    async execute(client, message, args) {
+        global.del(message, 5000);
         var {
             body
         } = await superagent
@@ -19,8 +24,5 @@ exports.run = async (client, message, args) => {
             .setColor('FF0000')
             .setImage(body.file);
         return message.channel.send(embed);
-    } catch (error) {
-
     }
-
 };

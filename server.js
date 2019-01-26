@@ -3,16 +3,24 @@ const global = require('./function/global.js');
 const config = require('./storage/globalSettings.js');
 const Discord = require('discord.js');
 const fs = require('fs');
-const espion = require('./function/espion.js');
+const logger = require('./function/logger.js');
 const ms = require('ms');
 ////////////////////////////
 
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
+client.queue = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith(".js"));
+for(const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
 
 // Process Handler
 fs.readdir("./process/", (error, files) => {
     if (error) {
-        espion.newError(client, error, __filename);
+        logger.newError(client, error, __filename);
         return console.error(error);
     }
     files.forEach((file) => {
@@ -25,7 +33,7 @@ fs.readdir("./process/", (error, files) => {
 // Event Handler
 fs.readdir("./events/", (error, files) => {
     if (error) {
-        espion.newError(client, error, __filename);
+        logger.newError(client, error, __filename);
         return console.error(error);
     }
     files.forEach((file) => {

@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
-const espion = require('../function/espion.js');
+const logger = require('../function/logger.js');
 /* eslint-disable arrow-body-style */
 
 exports.run = (client, error) => {
-    return espion.newError(client, error, __filename);
+    return logger.newError(client, error, __filename);
 };

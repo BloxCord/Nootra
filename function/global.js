@@ -1,4 +1,8 @@
 const config = require('../storage/globalSettings.js');
+const logger = require('../function/logger');
+const Discord = require('discord.js');
+const ms = require('ms');
+const ytdl = require('ytdl-core');
 
 /*eslint-disable arrow-body-style*/
 
@@ -225,3 +229,93 @@ exports.arrayList = (array, slicer) => {
     }
     return shortArrays;
 };
+
+exports.handleVideo = async (client, queue, video, message, voiceChannel, playlist = false) => {
+    const serverQueue = queue.get(message.guild.id);
+    var duration = ms(`${video.duration.days}days`) + ms(`${video.duration.hours}hours`) + ms(`${video.duration.minutes}minutes`) + ms(`${video.duration.seconds}seconds`) + ms(`${video.duration.weeks}weeks`) + ms(`${video.duration.years}years`);
+
+    const song = {
+        id: video.id,
+        title: (video.title),
+        url: `https://www.youtube.com/watch?v=${video.id}`,
+        duration: duration
+    };
+    if (!serverQueue) {
+        const queueConstruct = {
+            textChannel: message.channel,
+            voiceChannel: voiceChannel,
+            connection: null,
+            songs: [],
+            volume: 50,
+            playing: true,
+            repeat: false,
+        };
+        queue.set(message.guild.id, queueConstruct);
+
+        queueConstruct.songs.push(song);
+
+        try {
+            var connection = await voiceChannel.join();
+            queueConstruct.connection = connection;
+            play(client, queue, message.guild, queueConstruct.songs[0]);
+        } catch (error) {
+            console.log(error);
+            return logger.newError(client, error, __filename);
+        }
+    } else {
+        serverQueue.songs.push(song);
+        if (playlist) {
+            return undefined;
+        } else {
+            const musicSongAdd = new Discord.RichEmbed()
+                .setColor("FF0000")
+                .setAuthor('Play', 'https://png.icons8.com/play/dusk/50')
+                .setDescription(`\`${song.title}\` added to queue !`);
+            return message.channel.send(musicSongAdd);
+        }
+    }
+};
+
+function play(client, queue, guild, song) {
+    const serverQueue = queue.get(guild.id);
+
+    if (!song) {
+        serverQueue.voiceChannel.leave();
+        return queue.delete(guild.id);
+    }
+
+    const dispatcher = serverQueue.connection.playStream(ytdl(song.url, {
+        filter: "audioonly"
+    }));
+    dispatcher.on('end', () => {
+        try {
+            if (serverQueue.repeat === true) {
+                return play(client, queue, guild, serverQueue.songs[0]);
+            } else {
+                serverQueue.songs.shift();
+                return play(client, queue, guild, serverQueue.songs[0]);
+            }
+        } catch (error) {
+            serverQueue.voiceChannel.leave();
+            console.log(error);
+            return logger.newError(client, error, __filename);
+        }
+    });
+    dispatcher.on('error', (error) => {
+        console.log(error);
+        logger.newError(client, error, __filename);
+        return serverQueue.textChannel.send(`I had to stop playing music because :\n\`\`\`${error}\`\`\``);
+    });
+    dispatcher.setVolume(serverQueue.volume / 100);
+    const musicPlay = new Discord.RichEmbed()
+        .setColor("FF0000")
+        .setAuthor('Play', 'https://png.icons8.com/play/dusk/50')
+        .setTitle('Direct link')
+        .setURL(song.url)
+        .setImage(`https://i.ytimg.com/vi/${song.id}/maxresdefault.jpg`)
+        .addField("Now playing :", song.title, false)
+        .setTimestamp();
+    return serverQueue.textChannel.send(musicPlay);
+};
+
+exports.play = (client, queue, guild, song) => play(client, queue, guild, song);

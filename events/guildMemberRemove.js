@@ -1,13 +1,9 @@
 const Discord = require('discord.js');
 const config = require('../storage/globalSettings.js');
-const espion = require('../function/espion.js');
+const logger = require('../function/logger.js');
 
-exports.run = (client, member, guild) => {
+exports.run = async (client, member) => {
 
-    if (member.guild.id === '110373943822540800') {
-        return;
-    } else {
-        espion.memberRemove(client, member, guild);
-    }
-
+	logger.memberRemove(client, member);
+	
 };

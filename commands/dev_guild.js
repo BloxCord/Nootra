@@ -1,15 +1,20 @@
 const Discord = require('discord.js');
-const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 
-exports.timer = '2seconds';
-exports.run = (client, message, args) => {
-    
-    global.del(message, 5000);
-    
-    var guild = client.guilds.find((guild) => guild.id === args[1]);
+module.exports = {
+    name: 'guild',
+    description: '',
+    guildOnly: true,
+    devOnly: true,
+    perms: [],
+    type: 'dev',
+    help: '',
+    cooldown: 5,
+    execute(client, message, args) {
+        global.del(message, 5000);
 
-    if (message.author.id === config.admin) {
+        var guild = client.guilds.find((guild) => guild.id === args[1]) || message.guild;
+
         if (args[0] === 'leave') {
             guild.leave();
         } else if (args[0] === 'info') {
@@ -28,7 +33,5 @@ exports.run = (client, message, args) => {
         } else {
             return message.reply('leave/info');
         }
-    } else {
-        return message.reply("this command is restricted.");
     }
 };

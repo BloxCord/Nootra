@@ -1,9 +1,9 @@
 const discord = require('discord.js');
 const config = require('../storage/globalSettings.js');
-const espion = require('../function/espion.js');
+const logger = require('../function/logger.js');
 
 exports.run = (client, guild) => {
 
-    espion.guildCreate(client, guild);
+    logger.guildCreate(client, guild);
 
 };

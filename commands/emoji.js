@@ -1,17 +1,20 @@
 const Discord = require('discord.js');
-const config = require('../storage/globalSettings.js');
 const global = require('../function/global.js');
 const fs = require('fs');
 
 let serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
-
-exports.timer = '10seconds';
-exports.run = (client, message, args) => {
-
-    global.del(message, 5000);
-    var emojiId = args[1].split(':').pop().split('>')[0];
-
-    if (message.author.id === config.amdin || message.member.hasPermission("MANAGE_EMOJIS")) {
+module.exports = {
+    name: 'emoji',
+    description: '',
+    guildOnly: true,
+    devOnly: false,
+    perms: ['MANAGE_EMOJIS'],
+    type: 'utility',
+    help: '',
+    cooldown: 5,
+    execute(client, message, args) {
+        global.del(message, 5000);
+        var emojiId = args[1].split(':').pop().split('>')[0];
         switch (args[0]) {
             case 'new':
                 try {
@@ -61,9 +64,5 @@ exports.run = (client, message, args) => {
             default:
                 return message.reply(`Available commands : ${serverSettings[message.guild.id].prefix}emoji new/del/code/url`);
         }
-
-    } else {
-        return message.reply('this command is restricted.');
     }
-
 };

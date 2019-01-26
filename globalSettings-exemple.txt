@@ -1,0 +1,20 @@
+﻿const pack = require('../package.json');
+var name = "";
+
+const config = {
+  token: 'yousecrettokenhere',
+  apiYoutube: 'youtubeapitoken',
+  clientSecret: 'clientsecretfromportal',
+  name: name,
+  creator: "itsyou",
+  devs: ['yourid', 'yourfriendid'],
+  avatar: "avatar.png",
+  id: "botid",
+  loggerMsgId: "channelid",
+  version: `${name}-${pack.version}`,
+  loggerVersion: "Logger-1.0.0",
+  fixheure: 2,
+  defaultPrefix: '!'
+};
+
+module.exports = config;

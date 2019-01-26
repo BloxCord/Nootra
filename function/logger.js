@@ -9,22 +9,24 @@ const Discord = require('discord.js');
  * @param {__filename} fileName Usefull to know from where the error comes from
  */
 exports.newError = (client, error, fileName) => {
-    const channelEspionError = client.channels.find((channel) => channel.id === '422507483479932928');
-    if(fileName) console.log(fileName);
-    console.log(error.toString());
-    return channelEspionError.send(`
+    if (error) {
+        const channelLoggerError = client.channels.find((channel) => channel.id === '422507483479932928');
+        if (fileName) console.log(fileName);
+        console.log(error);
+        return channelLoggerError.send(`
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 - Error :
 ${error.toString()}`, {
-        code: 'diff'
-    });
+            code: 'diff'
+        });
+    }
 };
 
 exports.messageSent = (client, message) => {
-    const channelEspionMsg = client.channels.find((channel) => channel.id === config.espionMsgId);
+    const channelLoggerMsg = client.channels.find((channel) => channel.id === config.loggerMsgId);
 
     if (message.content.length > 700) {
         return;
@@ -32,7 +34,7 @@ exports.messageSent = (client, message) => {
 
     if (message.attachments.size > 0) {
         message.attachments.map((attach) => {
-            channelEspionMsg.send(new Discord.RichEmbed()
+            channelLoggerMsg.send(new Discord.RichEmbed()
                 .setColor('FF0000')
                 .setImage(attach.url)
                 .setDescription(`
@@ -40,28 +42,28 @@ exports.messageSent = (client, message) => {
 - Pseudo (ID):
 ${message.author.username} (${message.author.id})
 - Serveur (ID):
-${message.guild.name} (${message.guild.id})
+${message.channel.type === 'text' ? message.guild.name : ''} (${message.channel.type === 'text' ? message.guild.name : `#${message.author.tag}`})
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 - Message :
 ${message.content}
 \`\`\``));
         });
     } else {
-        return channelEspionMsg.send(new Discord.RichEmbed()
+        return channelLoggerMsg.send(new Discord.RichEmbed()
             .setColor('FF0000')
             .setDescription(`
 \`\`\`diff
 - Pseudo (ID):
 ${message.author.username} (${message.author.id})
 - Serveur (ID):
-${message.guild.name} (${message.guild.id})
+${message.channel.type === 'text' ? message.guild.name : ''} (${message.channel.type === 'text' ? message.guild.name : `#${message.author.tag}`})
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 - Message :
 ${message.content}
 \`\`\``));
@@ -69,12 +71,12 @@ ${message.content}
 };
 
 exports.newTodo = (client, message, args) => {
-    const channelEspionTodo = client.channels.find((channel) => channel.id === '427552722401886209');
-    channelEspionTodo.send(`
+    const channelLoggerTodo = client.channels.find((channel) => channel.id === '427552722401886209');
+    channelLoggerTodo.send(`
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 - To-do :
 ${args.join(' ')}
 - Pseudo (ID) :
@@ -84,8 +86,8 @@ ${message.author.username} (${message.author.id})`, {
 };
 
 exports.bugReport = (client, message, report) => {
-    const channelEspionBug = client.channels.find((channel) => channel.id === '444781160162394112');
-    channelEspionBug.send(report).then((msg) => {
+    const channelLoggerBug = client.channels.find((channel) => channel.id === '444781160162394112');
+    channelLoggerBug.send(report).then((msg) => {
         msg.edit(msg.content + `\n**Report ID :** ${msg.id}`);
         message.author.send(new Discord.RichEmbed().setColor('FF0000').setDescription(`
 Hello, thank you for submitting a report, moderators are going to inspect it soon.
@@ -94,8 +96,8 @@ Report id : **${msg.id}**`));
 };
 
 exports.guildCreate = (client, guild) => {
-    const channelEspionGuild = client.channels.find((channel) => channel.id === '422507423815958549');
-    channelEspionGuild.send(new Discord.RichEmbed()
+    const channelLoggerGuild = client.channels.find((channel) => channel.id === '422507423815958549');
+    channelLoggerGuild.send(new Discord.RichEmbed()
         .setColor('FF0000')
         .setThumbnail(guild.iconURL)
         .setAuthor("[guildCreate]", "https://cdn.discordapp.com/emojis/435603381818490880.png")
@@ -105,15 +107,15 @@ exports.guildCreate = (client, guild) => {
 ${guild.name} (${guild.id})
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 \`\`\``)
     );
 };
 
 exports.guildDelete = (client, guild) => {
-    const channelEspionGuild = client.channels.find((channel) => channel.id === '422507423815958549');
-    channelEspionGuild.send(new Discord.RichEmbed()
+    const channelLoggerGuild = client.channels.find((channel) => channel.id === '422507423815958549');
+    channelLoggerGuild.send(new Discord.RichEmbed()
         .setColor('FF0000')
         .setThumbnail(guild.iconURL)
         .setAuthor("[guildDelete]", "https://cdn.discordapp.com/emojis/435603381269037057.png")
@@ -123,15 +125,15 @@ exports.guildDelete = (client, guild) => {
 ${guild.name} (${guild.id})
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 \`\`\``)
     );
 };
 
-exports.memberAdd = (client, member, guild) => {
-    const channelEspionGuild = client.channels.find((channel) => channel.id === '422507423815958549');
-    channelEspionGuild.send(new Discord.RichEmbed()
+exports.memberAdd = async (client, member) => {
+    const channelLoggerGuild = client.channels.find((channel) => channel.id === '422507423815958549');
+    channelLoggerGuild.send(new Discord.RichEmbed()
         .setColor('FF0000')
         .setThumbnail(member.user.avatarURL)
         .setAuthor("[guildMemberAdd]", "https://cdn.discordapp.com/emojis/435603381818490880.png")
@@ -139,19 +141,19 @@ exports.memberAdd = (client, member, guild) => {
 \`\`\`diff
 - Member (ID) :
 ${member.user.username} (${member.user.id})
-- Serveur (ID) :
-${guild.name} (${guild.id})
+- Guild (ID) :
+${member.guild.name} (${member.guild.id})
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 \`\`\``)
     );
 };
 
-exports.memberRemove = (client, member, guild) => {
-    const channelEspionGuild = client.channels.find((channel) => channel.id === '422507423815958549');
-    channelEspionGuild.send(new Discord.RichEmbed()
+exports.memberRemove = (client, member) => {
+    const channelLoggerGuild = client.channels.find((channel) => channel.id === '422507423815958549');
+    channelLoggerGuild.send(new Discord.RichEmbed()
         .setColor('FF0000')
         .setThumbnail(member.user.avatarURL)
         .setAuthor("[guildMemberRemove]", "https://cdn.discordapp.com/emojis/435603381269037057.png")
@@ -159,12 +161,12 @@ exports.memberRemove = (client, member, guild) => {
 \`\`\`diff
 - Member (ID) :
 ${member.user.username} (${member.user.id})
-- Serveur (ID) :
-${guild.name} (${guild.id})
+- Guild (ID) :
+${member.guild.name} (${member.guild.id})
 - Date :
 ${global.newDate()}
-- Version (bot) <espion>
-(${config.version}) <${config.espionVersion}>
+- Version (bot) <logger>
+(${config.version}) <${config.loggerVersion}>
 \`\`\``)
     );
 };
