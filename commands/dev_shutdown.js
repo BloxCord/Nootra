@@ -1,14 +1,14 @@
 module.exports = {
-    name: "quit",
+    name: "shutdown",
     description: "",
-    guildOnly: true,
+    guildOnly: false,
     devOnly: true,
     perms: [],
     type: "dev",
-    help: "prefix + quit",
+    help: "",
     cooldown: 5,
     execute(client, message, args) {
         console.log("Déconnexion...");
-        process.exit(1000);
+        process.exit(1414).catch((err) => console.log(err));
     }
 };

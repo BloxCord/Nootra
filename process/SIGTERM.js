@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const logger = require('../function/logger.js');
+const Discord = require("discord.js");
+const logger = require("../function/logger.js");
 /* eslint-disable arrow-body-style */
 
 exports.run = (client, error) => {

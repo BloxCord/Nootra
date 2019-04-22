@@ -1,11 +1,11 @@
 module.exports = {
-    name: 'flip',
-    description: '',
+    name: "flip",
+    description: "",
     guildOnly: false,
     devOnly: false,
     perms: [],
-    type: 'fun',
-    help: '',
+    type: "fun",
+    help: "",
     cooldown: 5,
     execute(client, message, args) {
         var channel = message.channel;

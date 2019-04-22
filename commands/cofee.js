@@ -1,28 +1,31 @@
-const Discord = require('discord.js');
-const config = require('../storage/globalSettings.js');
-const superagent = require('superagent');
-const global = require('../function/global.js');
+const Discord = require("discord.js");
+const config = require("../storage/globalSettings.js");
+const superagent = require("superagent");
+const global = require("../function/global.js");
 
 module.exports = {
-    name: 'cofee',
-    description: '',
+    name: "cofee",
+    description: "",
     guildOnly: false,
     devOnly: false,
     perms: [],
-    type: '',
-    help: 'fun',
+    type: "fun",
+    help: "prefix + cofee",
     cooldown: 5,
     async execute(client, message, args) {
-        global.del(message, 5000);
+        
+        message.delete(5000).catch(() => {
+            return;
+        });
 
         var {
             body
         } = await superagent
-            .get('https://coffee.alexflipnote.xyz/random.json');
+            .get("https://coffee.alexflipnote.xyz/random.json");
 
         var embed = new Discord.RichEmbed()
-            .setAuthor('Random Cofee ☕')
-            .setColor('FF0000')
+            .setAuthor("Random Cofee ☕")
+            .setColor("FF0000")
             .setDescription(`
 Nothing under me ? Direct link [here](${body.file}) !
 (Great thanks to [AlexFlipnote](https://github.com/AlexFlipnote) for creating the API and letting me use it, here's his [website](https://alexflipnote.xyz/))

@@ -7,10 +7,10 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ## Pull Request Process
 
-1. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-2. Increase the version numbers in any examples files and the README.md to the new version that this Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
-3. Update the README.md with the new informations such as new dependencies, version etc..
-4. Make sure your pull request has at least : 1 type label, 1 priority label and 1 status label to help us know what is important or not.
+1.  Ensure any install or build dependencies are removed before the end of the layer when doing a build.
+2.  Increase the version numbers in any examples files and the README.md to the new version that this Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
+3.  Update the README.md with the new informations such as new dependencies, version etc..
+4.  Make sure your pull request has at least : 1 type label, 1 priority label and 1 status label to help us know what is important or not.
 
 ## Code of Conduct
 
@@ -28,17 +28,17 @@ orientation.
 Examples of behavior that contributes to creating a positive environment
 include:
 
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
+*   Being respectful of differing viewpoints and experiences
+*   Gracefully accepting constructive criticism
+*   Focusing on what is best for the community
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a professional setting
+*   The use of sexualized language or imagery and unwelcome sexual attention or advances
+*   Trolling, insulting/derogatory comments, and personal or political attacks
+*   Public or private harassment
+*   Publishing others' private information, such as a physical or electronic address, without explicit permission
+*   Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ### Our Responsibilities
 

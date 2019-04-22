@@ -1,15 +1,15 @@
 const Discord = require("discord.js");
-const config = require('../storage/globalSettings.js');
-const global = require('../function/global.js');
+const config = require("../storage/globalSettings.js");
+const global = require("../function/global.js");
 
 module.exports = {
-    name: 'clear',
-    description: '',
+    name: "clear",
+    description: "",
     guildOnly: true,
     devOnly: false,
-    perms: ['MANAGE_MESSAGES'],
-    type: 'moderation',
-    help: '',
+    perms: ["MANAGE_MESSAGES"],
+    type: "moderation",
+    help: "prefix + clear 'number'",
     cooldown: 5,
     async execute(client, message, args) {
         if (isNaN(args[0])) {
@@ -22,19 +22,25 @@ module.exports = {
             limit: args[0]
         });
 
-        try {
-            message.channel.bulkDelete(fetched);
+        message.channel.bulkDelete(fetched).then(() => {
             const embed = new Discord.RichEmbed()
                 .setAuthor(`${fetched.size} message cleared !`)
-                .setColor('FF0000')
+                .setColor("FF0000")
                 .setFooter(config.name, config.avatar)
                 .setImage("https://png.icons8.com/trash_can/office/100")
                 .setTimestamp();
             return message.channel.send(embed).then((msg) => {
-                global.del(msg, 5000);
+                msg.delete(5000).catch(() => {
+                    return;
+                });
             });
-        } catch (error) {
-            return message.reply(error);
-        }
+        }).catch(() => {
+            message.reply("Cannot delete messages [Missing permissions]").then((msg) => {
+                msg.delete(2000).catch(() => {
+                    return;
+                });
+            });
+        });
+
     }
 };

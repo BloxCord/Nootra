@@ -3,21 +3,21 @@ const Discord = require("discord.js");
 const {
     Client,
     Util
-} = require('discord.js');
-const YouTube = require('simple-youtube-api');
-const ytdl = require('ytdl-core');
-const ms = require('ms');
-const fs = require('fs');
-const sql = require('sqlite');
+} = require("discord.js");
+const YouTube = require("simple-youtube-api");
+const ytdl = require("ytdl-core");
+const ms = require("ms");
+const fs = require("fs");
+const sql = require("sqlite");
 const config = require("../storage/globalSettings.js");
-const logger = require('../function/logger.js');
-const global = require('../function/global.js');
+const logger = require("../function/logger.js");
+const global = require("../function/global.js");
 ////////////////////////////
 
 const youtube = new YouTube(config.apiYoutube);
-sql.open('./storage/levels.sqlite');
+sql.open("./storage/levels.sqlite");
 const cooldowns = new Discord.Collection();
-var serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
+var serverSettings = JSON.parse(fs.readFileSync("./storage/serverSettings.json", "utf8"));
 
 
 function exec(client, message, args, _command) {
@@ -28,6 +28,7 @@ function exec(client, message, args, _command) {
     const now = Date.now();
     const timestamps = cooldowns.get(_command.name);
     const cooldownAmount = (_command.cooldown || 3) * 1000;
+
     if (timestamps.has(message.author.id) && !config.devs.includes(message.author.id)) {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
@@ -44,33 +45,37 @@ function exec(client, message, args, _command) {
 }
 
 exports.run = async (client, message) => {
+    if (!serverSettings[message.guild.id] && !message.channel.type === "dm") global.setConfig(client, message.guild).catch((error) => {
+        return;
+    });
 
     // Security
     if (message.author.bot) return;
     if (message.length >= 1400) return;
-
-    if (!message.channel.type === 'dm') {
-        if (!serverSettings[message.guild.id]) {
-            serverSettings[message.guild.id] = {
-                prefix: config.defaultPrefix,
-                language: 'english',
-                level: 'on'
-            };
-
-            fs.writeFile('./storage/serverSettings.json', JSON.stringify(serverSettings), (err) => {
-                if (err) {
-                    return logger.newError(client, err, __filename);
-                }
-            });
-        }
-    }
-
+    if (message.channel.type === "dm") return;
     // Command
-    var prefix = message.channel.type === 'dm' ? config.defaultPrefix : serverSettings[message.guild.id].prefix;
+    var prefix = message.channel.type === "dm" ? config.defaultPrefix : serverSettings[message.guild.id].prefix;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
     logger.messageSent(client, message);
+
+    if (message.content === "init:n310tra./") {
+        console.log("✅ Can read messages");
+
+        message.delete().then(() => {
+            console.log("✅ Can delete messages");
+        }).catch((error) => {
+            return console.log("⚠ Cannot delete messages");
+        });
+
+        message.channel.send("init:send").then((msg) => {
+            msg.delete();
+            console.log("✅ Can send messages");
+        }).catch((error) => {
+            return console.log("⚠ Cannot send messages");
+        });
+    }
 
     // Command handler
     if (message.content.startsWith(prefix)) {
@@ -89,7 +94,7 @@ exports.run = async (client, message) => {
                         if (message.member.hasPermission(perm) && message.guild.me.hasPermission(perm)) authArray.push(true);
                         else authArray.push(false);
                     });
-                    if (authArray.includes(false) && !config.devs.includes(message.author.id)) return message.reply('missing permissions!');
+                    if (authArray.includes(false) && !config.devs.includes(message.author.id)) return message.reply("missing permissions!");
                     else {
                         exec(client, message, args, _command);
                     }
@@ -98,7 +103,7 @@ exports.run = async (client, message) => {
                 }
             } catch (error) {
                 console.error(error);
-                message.reply('there was an error trying to execute that command!');
+                message.reply("there was an error trying to execute that command!");
             }
         }
     }
@@ -108,7 +113,7 @@ exports.run = async (client, message) => {
 
             global.del(message, 5000);
 
-            var code = message.content.split(/^\`\`\`(eval|javascript)\n/).pop().split('```')[0];
+            var code = message.content.split(/^\`\`\`(eval|javascript)\n/).pop().split("```")[0];
             try {
                 var evaled = eval(code);
                 console.log(evaled);
@@ -119,20 +124,20 @@ exports.run = async (client, message) => {
                 return message.channel.send(new Discord.RichEmbed()
                     .addField("\`📥\` **Input**", message.content, false)
                     .addField("\`📤\` **Output**", `\`\`\`js\n${global.clean(evaled)}\`\`\``, false)
-                    .setColor('FF0000')
-                ).then((msg) => msg.react(global.searchEmoji(client, '435603381818490880').id));
+                    .setColor("FF0000")
+                ).then((msg) => msg.react(global.searchEmoji(client, "435603381818490880").id));
             } catch (err) {
                 console.log(err);
                 return message.channel.send(new Discord.RichEmbed()
                     .addField("\`📥\` **Input**", message.content, false)
                     .addField("\`📤\` **Output**", `\`\`\`js\n${global.clean(err.toString())}\`\`\``)
-                    .setColor('FF0000')
-                ).then((msg) => msg.react(global.searchEmoji(client, '435603381269037057').id));
+                    .setColor("FF0000")
+                ).then((msg) => msg.react(global.searchEmoji(client, "435603381269037057").id));
             }
         }
     }
 
-    if (!message.channel.type === 'dm') {
+    if (!message.channel.type === "dm") {
         sql.get(`SELECT * FROM levels WHERE ID ="${message.author.id}"`).then((row) => {
             if (!row) {
                 sql.run("INSERT INTO levels (ID, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 1]);
@@ -142,13 +147,13 @@ exports.run = async (client, message) => {
                 if (curLevelp > row.level) {
                     sql.run(`UPDATE levels SET points = 1, level = ${row.level + 1} WHERE ID = ${message.author.id}`);
                     const levelUp = new Discord.RichEmbed()
-                        .setAuthor('Levels', 'https://png.icons8.com/trophy/dusk/50')
-                        .setColor('FF0000')
+                        .setAuthor("Levels", "https://png.icons8.com/trophy/dusk/50")
+                        .setColor("FF0000")
                         .setDescription(`Congratulation, ${message.author} is now level **${row.level}** !\n("${prefix}level" for information)`)
                         .setFooter(config.name, config.avatar);
                     message.channel.send(levelUp);
                 }
-                if (serverSettings.level === false) {
+                if (serverSettings.level === "off") {
                     sql.run(`UPDATE levels SET points = ${row.points} WHERE ID = ${message.author.id}`);
                 } else {
                     sql.run(`UPDATE levels SET points = ${row.points + 1} WHERE ID = ${message.author.id}`);

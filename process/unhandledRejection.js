@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const logger = require('../function/logger.js');
+const Discord = require("discord.js");
+const logger = require("../function/logger.js");
 
 exports.run = (client, error) => {
     console.log(error);

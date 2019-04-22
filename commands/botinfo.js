@@ -1,34 +1,38 @@
-const config = require('../storage/globalSettings.js');
-const Discord = require('discord.js');
-const os = require('os');
-const fs = require('fs');
-const global = require('../function/global.js');
+const config = require("../storage/globalSettings.js");
+const Discord = require("discord.js");
+const os = require("os");
+const fs = require("fs");
+const global = require("../function/global.js");
 
-let serverSettings = JSON.parse(fs.readFileSync('./storage/serverSettings.json', 'utf8'));
+let serverSettings = JSON.parse(fs.readFileSync("./storage/serverSettings.json", "utf8"));
 module.exports = {
-    name: 'botinfo',
-    description: '',
-    guildOnly: false,
+    name: "botinfo",
+    description: "",
+    guildOnly: true,
     devOnly: false,
     perms: [],
-    type: 'utility',
-    help: '',
+    type: "utility",
+    help: "prefix + botinfo",
     cooldown: 5,
     execute(client, message, args) {
-        global.del(message, 5000);
+        
+        message.delete(5000).catch(() => {
+            return;
+        });
+
         var status = client.users.get(config.id).presence.status;
-        var StatusEmoji = status === 'online' ? 'https://cdn.discordapp.com/emojis/435603484616818708.png' : status === 'dnd' ? 'https://cdn.discordapp.com/emojis/435603483140292609.png' : status === 'idle' ? 'https://cdn.discordapp.com/emojis/435603483173978123.png' : 'https://cdn.discordapp.com/emojis/435603483627094026.png';
+        var StatusEmoji = status === "online" ? "https://cdn.discordapp.com/emojis/435603484616818708.png" : status === "dnd" ? "https://cdn.discordapp.com/emojis/435603483140292609.png" : status === "idle" ? "https://cdn.discordapp.com/emojis/435603483173978123.png" : "https://cdn.discordapp.com/emojis/435603483627094026.png";
         var devArray = [];
         client.users.forEach((user) => {
             if (config.devs.includes(user.id)) {
                 devArray.push(user.tag);
             }
         });
-        var devs = devArray.join(' \|\| ');
+        var devs = devArray.join(" \|\| ");
         var memusage = Math.round((os.freemem() * 100) / os.totalmem());
-        var usage = memusage <= 10 ? '[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬' : memusage <= 20 ? '[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬' : memusage <= 30 ? '[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬' : memusage <= 40 ? '[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬' : memusage <= 50 ? '[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬' : memusage <= 60 ? '[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬' : memusage <= 70 ? '[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬' : memusage <= 80 ? '[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬' : memusage <= 90 ? '[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬' : '[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)';
+        var usage = memusage <= 10 ? "[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬" : memusage <= 20 ? "[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬" : memusage <= 30 ? "[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬" : memusage <= 40 ? "[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬" : memusage <= 50 ? "[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬" : memusage <= 60 ? "[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬" : memusage <= 70 ? "[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬" : memusage <= 80 ? "[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬" : memusage <= 90 ? "[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬" : "[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)";
         const embed = new Discord.RichEmbed()
-            .setColor('FF0000')
+            .setColor("FF0000")
             .setFooter(`Status : ${global.capitalizeArg(status)}`, StatusEmoji)
             .addField(`${client.user.username}`, (`
 <:servers:440466171452719104> ${client.guilds.size}

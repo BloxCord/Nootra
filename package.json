@@ -1,6 +1,6 @@
 {
   "name": "nootra",
-  "version": "2.0.0-0",
+  "version": "2.1.0",
   "description": "Nootra discord bot package",
   "main": "server.js",
   "repository": "https://github.com/Notavone/Nootra",
@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "algebra.js": "^0.2.6",
+    "axios": "^0.18.0",
     "bufferutil": "^3.0.5",
     "discord.js": "^11.4.2",
     "eslint": "^4.19.1",

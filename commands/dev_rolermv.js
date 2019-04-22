@@ -1,23 +1,23 @@
-const global = require('../function/global.js');
+const global = require("../function/global.js");
 
 module.exports = {
-    name: 'rolermv',
-    description: '',
+    name: "rolermv",
+    description: "",
     guildOnly: true,
     devOnly: true,
     perms: [],
-    type: 'dev',
-    help: '',
+    type: "dev",
+    help: "prefix + rolermv 'roleName'",
     cooldown: 5,
     execute(client, message, args) {
-        global.del(message, 5000);
-        const user = message.mentions.members.first() || message.member;
-        var role = message.guild.roles.find((role) => role.name === args.join(' '));
-
-        try {
-            user.removeRole(role);
-        } catch (error) {
+        
+        message.delete().catch(() => {
             return;
-        }
+        });
+
+        const userMention = message.mentions.members.first() || message.member;
+        var role = message.guild.roles.find((role) => role.name === args.join(" "));
+
+        userMention.removeRole(role).catch((err) => console.log(err));
     }
 };

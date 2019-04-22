@@ -1,28 +1,31 @@
 const Discord = require("discord.js");
-const config = require('../storage/globalSettings.js');
-const ms = require('ms');
-const global = require('../function/global.js');
+const config = require("../storage/globalSettings.js");
+const ms = require("ms");
+const global = require("../function/global.js");
 
 module.exports = {
-    name: 'ping',
-    description: '',
+    name: "ping",
+    description: "",
     guildOnly: false,
     devOnly: false,
     perms: [],
-    type: 'utility',
-    help: '',
+    type: "utility",
+    help: "",
     cooldown: 5,
     execute(client, message, args) {
-        global.del(message, 5000);
+        
+        message.delete(5000).catch(() => {
+            return;
+        });
 
-        var quality = Math.round(client.ping) >= 150 ? 'bad \`😑\`' : Math.round(client.ping) >= 100 ? 'average \`😬\`' : 'good \`😀\`';
+        var quality = Math.round(client.ping) >= 150 ? "bad \`😑\`" : Math.round(client.ping) >= 100 ? "average \`😬\`" : "good \`😀\`";
 
         const PingEmbed = new Discord.RichEmbed()
-            .addField('API Response time `🕑` : ', `${Math.round(client.ping)}ms, ${quality}`, false)
-            .addField('Uptime `⌛` : ', `${ms(client.uptime, {long : true})}`, false)
-            .addField('Connected on `📆` : ', `${global.connexionDate()}`, false)
+            .addField("API Response time `🕑` : ", `${Math.round(client.ping)}ms, ${quality}`, false)
+            .addField("Uptime `⌛` : ", `${ms(client.uptime, {long : true})}`, false)
+            .addField("Connected the `📆` : ", `${global.connexionDate()}`, false)
             .setAuthor(`Ping`, "https://png.icons8.com/dusk/50/000000/speed.png")
-            .setColor('FF0000')
+            .setColor("FF0000")
             .setFooter(config.name, config.avatar);
         message.channel.send(PingEmbed);
     }
