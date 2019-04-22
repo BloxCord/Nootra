@@ -1,7 +1,7 @@
 # files
 .eslintrc.json
+storage/globalSettings.js
 
 # directories
-storage/
 node_modules/
 .vscode/
