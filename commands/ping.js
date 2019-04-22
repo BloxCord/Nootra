@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const config = require("../storage/globalSettings.js");
 const ms = require("ms");
 const global = require("../function/global.js");
 
@@ -24,9 +23,9 @@ module.exports = {
             .addField("API Response time `🕑` : ", `${Math.round(client.ping)}ms, ${quality}`, false)
             .addField("Uptime `⌛` : ", `${ms(client.uptime, {long : true})}`, false)
             .addField("Connected the `📆` : ", `${global.connexionDate()}`, false)
-            .setAuthor(`Ping`, "https://png.icons8.com/dusk/50/000000/speed.png")
+            .setAuthor("Ping", "https://png.icons8.com/dusk/50/000000/speed.png")
             .setColor("FF0000")
-            .setFooter(config.name, config.avatar);
+            .setFooter(client.config.name, client.config.avatar);
         message.channel.send(PingEmbed);
     }
 };

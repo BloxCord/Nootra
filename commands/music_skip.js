@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const global = require("../function/global.js");
-const config = require("../storage/globalSettings.js");
 
 module.exports = {
     name: "skip",
@@ -21,7 +19,7 @@ module.exports = {
             return;
         });
 
-        if (config.devs.includes(message.author.id) || memberRoles.find((role) => role.name === "DJ")) {
+        if (client.config.devs.includes(message.author.id) || memberRoles.find((role) => role.name === "DJ")) {
             if (!message.member.voiceChannel) {
                 return message.reply("you're not in a vocal channel.");
             }

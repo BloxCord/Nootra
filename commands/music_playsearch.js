@@ -1,8 +1,6 @@
 const Discord = require("discord.js");
 const global = require("../function/global.js");
-const config = require("../storage/globalSettings.js");
 const YouTube = require("simple-youtube-api");
-const youtube = new YouTube(config.apiYoutube);
 
 module.exports = {
     name: "playsearch",
@@ -14,6 +12,8 @@ module.exports = {
     help: "",
     cooldown: 5,
     async execute(client, message, args) {
+
+        const youtube = new YouTube(client.config.apiYoutube);
         var voiceChannel = message.member.voiceChannel;
         var queue = client.queue;
         var searchString = args.join(" ");

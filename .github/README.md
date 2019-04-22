@@ -2,7 +2,11 @@
 
 Nøøtra discord bot, created by Nøtavøne, [Support](http://discord.gg/VucSArh)
 
-[![development_discord](https://discordapp.com/api/guilds/416532107939151872/widget.png?style=shield)](https://discord.gg/cSejg) ![nootra_ver](https://img.shields.io/badge/Nøøtra-2.1.0-blue.svg) ![npm_ver](https://img.shields.io/badge/npm-5.7.1-blue.svg) ![node_ver](https://img.shields.io/badge/node-8.9.4-blue.svg) ![license](https://img.shields.io/badge/license-MIT-red.svg)
+[![development_discord](https://discordapp.com/api/guilds/416532107939151872/widget.png?style=shield)](https://discord.gg/cSejg) ![nootra_ver](https://img.shields.io/badge/Nøøtra-2.2.1-blue.svg) ![npm_ver](https://img.shields.io/badge/npm-5.7.1-blue.svg) ![node_ver](https://img.shields.io/badge/node-8.9.4-blue.svg) ![license](https://img.shields.io/badge/license-MIT-red.svg)
+
+Private release [![Private release codacy Badge](https://api.codacy.com/project/badge/Grade/439d53f163f249c3859898651c931e9e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Notavone/Nootra_pv&amp;utm_campaign=Badge_Grade)
+
+Public release [![Public release codacy Badge](https://api.codacy.com/project/badge/Grade/69cac479d6e94aaa8ec60279374e65dc)](https://www.codacy.com/app/Notavone/Nootra?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Notavone/Nootra&amp;utm_campaign=Badge_Grade)
 
 ## Getting Started
 

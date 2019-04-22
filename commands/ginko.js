@@ -21,24 +21,34 @@ module.exports = {
         function getDetails(message, ligne, arret, r) {
             var sensAller = [];
             var sensRetour = [];
-            if (r) r.remove(message.author.id);
+            if (r) {
+                r.remove(message.author.id);
+            }
             axios.get(`https://api.ginko.voyage/TR/getTempsLieu.do?nom=${arret.id}`).then((data) => {
                 data.data.objets.listeTemps.forEach((bus) => {
                     if (bus.sensAller && bus.numLignePublic === ligne.numLignePublic) {
-                        if (bus.fiable) sensAller.push(bus.temps);
-                        else sensAller.push(`${bus.temps}*`);
+                        if (bus.fiable) {
+                            sensAller.push(bus.temps);
+                        } else {
+                            sensAller.push(`${bus.temps}*`);
+                        }
                     }
                     if (!bus.sensAller && bus.numLignePublic === ligne.numLignePublic) {
-                        if (bus.fiable) sensRetour.push(bus.temps);
-                        else sensRetour.push(`${bus.temps}*`);
+                        if (bus.fiable) {
+                            sensRetour.push(bus.temps);
+                        } else {
+                            sensRetour.push(`${bus.temps}*`);
+                        }
                     }
                 });
 
                 const embed = new Discord.RichEmbed()
                     .setAuthor(`${date.getHours()}:${date.getMinutes()} UTC | Temps trouvés pour l"arret "${data.data.objets.nomExact}"`)
                     .setColor(ligne.couleurFond);
-                if (sensAller.length === 0 && sensRetour.length === 0) embed.setDescription("Aucun horaire trouvé");
-                embed.setDescription(`
+                if (sensAller.length === 0 && sensRetour.length === 0) {
+                    embed.setDescription("Aucun horaire trouvé");
+                } else {
+                    embed.setDescription(`
         ${sensAller.length !== 0 ? (`__**Direction ${ligne.variantes[0].destination}**__
         ${sensAller.join(" - ")} 🚏`) : ""}
         ${sensRetour.length !== 0 ? (`__**Direction ${ligne.variantes[1].destination}**__
@@ -46,6 +56,7 @@ module.exports = {
         
         * = horaire théorique
         `);
+                }
 
                 return message.channel.send(embed);
             });
@@ -54,7 +65,9 @@ module.exports = {
         function getArret(message, ligne, variante, query, r) {
             var stopFound = [];
             if (ligne.variantes[variante] && query === null) {
-                if (r) r.remove(message.author.id);
+                if (r) {
+                    r.remove(message.author.id);
+                }
 
                 const embed = new Discord.RichEmbed()
                     .setColor(ligne.couleurFond)
@@ -75,10 +88,15 @@ module.exports = {
                         }).catch((error) => {
                             return;
                         });
-                        if (response.first()) response.first().delete(5000);
+                        if (response.first()) {
+                            response.first().delete(5000);
+                        }
                         data.data.objets.forEach((stop) => {
-                            if (response.first().content.toLowerCase() === "cancel" || response.first().content.toLowerCase() === "'cancel'") return message.reply("canceled!");
-                            else if (stop.nom.toLowerCase().includes(response.first().content.toLowerCase())) stopFound.push(stop);
+                            if (response.first().content.toLowerCase() === "cancel" || response.first().content.toLowerCase() === "'cancel'") {
+                                return message.reply("canceled!");
+                            } else if (stop.nom.toLowerCase().includes(response.first().content.toLowerCase())) {
+                                stopFound.push(stop);
+                            }
                         });
 
                         if (stopFound.length > 5) {
@@ -97,9 +115,15 @@ module.exports = {
                             message.channel.send(embed).then(async (stopMessage) => {
                                 await stopMessage.react("1⃣");
                                 await stopMessage.react("2⃣");
-                                if (stopFound[2]) await stopMessage.react("3⃣");
-                                if (stopFound[3]) await stopMessage.react("4⃣");
-                                if (stopFound[4]) await stopMessage.react("5⃣");
+                                if (stopFound[2]) {
+                                    await stopMessage.react("3⃣");
+                                }
+                                if (stopFound[3]) {
+                                    await stopMessage.react("4⃣");
+                                }
+                                if (stopFound[4]) {
+                                    await stopMessage.react("5⃣");
+                                }
 
                                 stopMessage.createReactionCollector((reaction) => reaction.emoji.name === "1⃣" && reaction.count !== 1, {
                                     time: ms("1day")
@@ -129,7 +153,9 @@ module.exports = {
                             });
                         } else if (stopFound.length === 1) {
                             return getDetails(message, ligne, stopFound[0]);
-                        } else if (stopFound.length === 0) getArret(message, ligne, variante + 1, response.first().content);
+                        } else if (stopFound.length === 0) {
+                            getArret(message, ligne, variante + 1, response.first().content);
+                        }
                     } catch (error) {
                         return message.reply("no stop provided. cancelling");
                     }
@@ -138,7 +164,9 @@ module.exports = {
                 axios.get(`https://api.ginko.voyage/DR/getDetailsVariante.do?idLigne=${ligne.id}&idVariante=${ligne.variantes[variante].id}`).then(async (data) => {
                     try {
                         data.data.objets.forEach((stop) => {
-                            if (stop.nom.toLowerCase().includes(query.toLowerCase())) stopFound.push(stop);
+                            if (stop.nom.toLowerCase().includes(query.toLowerCase())) {
+                                stopFound.push(stop);
+                            }
                         });
 
                         if (stopFound.length > 5) {
@@ -157,9 +185,15 @@ module.exports = {
                             message.channel.send(embed).then(async (stopMessage) => {
                                 await stopMessage.react("1⃣");
                                 await stopMessage.react("2⃣");
-                                if (stopFound[2]) await stopMessage.react("3⃣");
-                                if (stopFound[3]) await stopMessage.react("4⃣");
-                                if (stopFound[4]) await stopMessage.react("5⃣");
+                                if (stopFound[2]) {
+                                    await stopMessage.react("3⃣");
+                                }
+                                if (stopFound[3]) {
+                                    await stopMessage.react("4⃣");
+                                }
+                                if (stopFound[4]) {
+                                    await stopMessage.react("5⃣");
+                                }
 
                                 stopMessage.createReactionCollector((reaction) => reaction.emoji.name === "1⃣" && reaction.count !== 1, {
                                     time: ms("1day")
@@ -189,12 +223,16 @@ module.exports = {
                             });
                         } else if (stopFound.length === 1) {
                             return getDetails(message, ligne, stopFound[0]);
-                        } else if (stopFound.length === 0) getArret(message, ligne, variante + 1, query);
+                        } else if (stopFound.length === 0) {
+                            getArret(message, ligne, variante + 1, query);
+                        }
                     } catch (error) {
                         return;
                     }
                 });
-            } else return message.reply("couldn't find this stop, please try again");
+            } else {
+                return message.reply("couldn't find this stop, please try again");
+            }
         }
 
         axios.get("https://api.ginko.voyage/DR/getLignes.do").then((data) => {
@@ -202,7 +240,9 @@ module.exports = {
             var lignesFound = [];
             var index = 1;
             arrayLigne.forEach((ligne) => {
-                if (ligne.libellePublic.toLowerCase().includes(args.join(" ").toLowerCase()) || ligne.numLignePublic === args.join(" ")) lignesFound.push(ligne);
+                if (ligne.libellePublic.toLowerCase().includes(args.join(" ").toLowerCase()) || ligne.numLignePublic === args.join(" ")) {
+                    lignesFound.push(ligne);
+                }
             });
 
             if (lignesFound.length > 5) {
@@ -223,9 +263,15 @@ module.exports = {
                     });
                     await lineMessage.react("1⃣");
                     await lineMessage.react("2⃣");
-                    if (lignesFound[2]) await lineMessage.react("3⃣");
-                    if (lignesFound[3]) await lineMessage.react("4⃣");
-                    if (lignesFound[4]) await lineMessage.react("5⃣");
+                    if (lignesFound[2]) {
+                        await lineMessage.react("3⃣");
+                    }
+                    if (lignesFound[3]) {
+                        await lineMessage.react("4⃣");
+                    }
+                    if (lignesFound[4]) {
+                        await lineMessage.react("5⃣");
+                    }
 
                     lineMessage.createReactionCollector((reaction) => reaction.emoji.name === "1⃣" && reaction.count !== 1, {
                         time: ms("1day")

@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../storage/globalSettings.js");
 const superagent = require("superagent");
-const global = require("../function/global.js");
 
 module.exports = {
     name: "cofee",
@@ -31,7 +29,7 @@ Nothing under me ? Direct link [here](${body.file}) !
 (Great thanks to [AlexFlipnote](https://github.com/AlexFlipnote) for creating the API and letting me use it, here's his [website](https://alexflipnote.xyz/))
 `)
             .setImage(body.file)
-            .setFooter(config.name, config.avatar);
+            .setFooter(client.config.name, client.config.avatar);
         return message.channel.send(embed);
     }
 };

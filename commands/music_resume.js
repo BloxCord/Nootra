@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const global = require("../function/global.js");
-const config = require("../storage/globalSettings.js");
 
 module.exports = {
     name: "resume",
@@ -21,7 +19,7 @@ module.exports = {
             return;
         });
 
-        if (config.devs.includes(message.author.id) || memberRole.find((role) => role.name === "DJ")) {
+        if (client.config.devs.includes(message.author.id) || memberRole.find((role) => role.name === "DJ")) {
             if (serverQueue && serverQueue.playing === false) {
                 serverQueue.playing = true;
                 serverQueue.connection.dispatcher.resume();

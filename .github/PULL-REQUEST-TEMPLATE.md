@@ -1,4 +1,4 @@
-# Nootra Pull Request
+# Nøøtra Pull Request
 
 ## Priority
 

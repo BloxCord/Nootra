@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const global = require("../function/global.js");
 
 module.exports = {
     name: "guild",

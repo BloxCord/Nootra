@@ -1,4 +1,3 @@
-const config = require("../storage/globalSettings.js");
 const logger = require("../function/logger");
 const Discord = require("discord.js");
 const ms = require("ms");
@@ -41,7 +40,7 @@ exports.connexionDate = () => {
 exports.setConfig = (client, guild) => {
     if (!serverSettings[guild.id]) {
         serverSettings[guild.id] = {
-            prefix: config.defaultPrefix,
+            prefix: client.config.defaultPrefix,
             language: "english",
             level: "off"
         };
@@ -290,7 +289,7 @@ exports.handleVideo = async (client, queue, video, message, voiceChannel, playli
     if (!serverQueue) {
         const queueConstruct = {
             textChannel: message.channel,
-            voiceChannel: voiceChannel,
+            voiceChannel,
             connection: null,
             songs: [],
             volume: 50,

@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const config = require("../storage/globalSettings.js");
-const global = require("../function/global.js");
 
 module.exports = {
     name: "clear",
@@ -26,7 +24,7 @@ module.exports = {
             const embed = new Discord.RichEmbed()
                 .setAuthor(`${fetched.size} message cleared !`)
                 .setColor("FF0000")
-                .setFooter(config.name, config.avatar)
+                .setFooter(client.config.name, client.config.avatar)
                 .setImage("https://png.icons8.com/trash_can/office/100")
                 .setTimestamp();
             return message.channel.send(embed).then((msg) => {

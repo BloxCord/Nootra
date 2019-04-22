@@ -27,8 +27,11 @@ module.exports = {
             return message.reply("you mentionned more than 2 people!");
         }
         percent = size > 1 ? (usermention.id && usermention2.id) === user.id ? "101" : (usermention.id + usermention2.id) % 101 : usermention.id === user.id ? "101" : (user.id + usermention.id) % 101;
-        if (size > 1) result = percent <= 30 ? `${usermention.user.username}, you should'nt mess with ${usermention2.user.username}..` : percent <= 50 ? "You could at least try to be friends ?" : percent <= 70 ? "Close friends" : percent <= 80 ? "Best friends" : percent <= 90 ? "Inseparable" : percent <= 100 ? "Perfect Match!" : "You're made for yourself!";
-        else result = percent <= 30 ? `${user.user.username}, you should'nt mess with ${usermention.user.username}..` : percent <= 50 ? "You could at least try to be friends ?" : percent <= 70 ? "Close friends" : percent <= 80 ? "Best friends" : percent <= 90 ? "Inseparable" : percent <= 100 ? "Perfect Match!" : "You're made for yourself!";
+        if (size > 1) {
+            result = percent <= 30 ? `${usermention.user.username}, you should'nt mess with ${usermention2.user.username}..` : percent <= 50 ? "You could at least try to be friends ?" : percent <= 70 ? "Close friends" : percent <= 80 ? "Best friends" : percent <= 90 ? "Inseparable" : percent <= 100 ? "Perfect Match!" : "You're made for yourself!";
+        } else {
+            result = percent <= 30 ? `${user.user.username}, you should'nt mess with ${usermention.user.username}..` : percent <= 50 ? "You could at least try to be friends ?" : percent <= 70 ? "Close friends" : percent <= 80 ? "Best friends" : percent <= 90 ? "Inseparable" : percent <= 100 ? "Perfect Match!" : "You're made for yourself!";
+        }
 
         var barre = percent <= 10 ? "[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬" : percent <= 20 ? "[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬" : percent <= 30 ? "[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬" : percent <= 40 ? "[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬" : percent <= 50 ? "[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬" : percent <= 60 ? "[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬" : percent <= 70 ? "[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬" : percent <= 80 ? "[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬" : percent <= 90 ? "[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬" : "[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)";
         const embed = new Discord.RichEmbed()

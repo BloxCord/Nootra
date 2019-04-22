@@ -12,7 +12,7 @@ module.exports = {
     help: "",
     cooldown: 5,
     execute(client, message, args) {
-        
+
         message.delete(5000).catch(() => {
             return;
         });
@@ -24,7 +24,9 @@ module.exports = {
             search: args.join(" "),
             degreeType: "C"
         }, (error, result) => {
-            if(error) return message.reply(error);
+            if (error) {
+                return message.reply(error);
+            }
             if (result.length === 0) {
                 return message.reply("please use a valid location.");
             }
@@ -34,7 +36,7 @@ module.exports = {
 
 
             var HighEmojiTemp0 = (forecast[0].high <= 0) ? "<:tempfreeze:436785452851265536>" : "<:temphot:436785459960610826>";
-            var LowEmojiTemp0 = (forecast[0].low <= 0) ?  "<:tempfreeze:436785452851265536>" : "<:temphot:436785459960610826>";
+            var LowEmojiTemp0 = (forecast[0].low <= 0) ? "<:tempfreeze:436785452851265536>" : "<:temphot:436785459960610826>";
             var HighEmojiTemp1 = (forecast[1].high <= 0) ? "<:tempfreeze:436785452851265536>" : "<:temphot:436785459960610826>";
             var LowEmojiTemp1 = (forecast[1].low <= 0) ? "<:tempfreeze:436785452851265536>" : "<:temphot:436785459960610826>";
             var HighEmojiTemp2 = (forecast[2].high <= 0) ? "<:tempfreeze:436785452851265536>" : "<:temphot:436785459960610826>";

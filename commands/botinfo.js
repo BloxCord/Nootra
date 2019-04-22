@@ -1,4 +1,3 @@
-const config = require("../storage/globalSettings.js");
 const Discord = require("discord.js");
 const os = require("os");
 const fs = require("fs");
@@ -20,11 +19,11 @@ module.exports = {
             return;
         });
 
-        var status = client.users.get(config.id).presence.status;
+        var status = client.users.get(client.config.id).presence.status;
         var StatusEmoji = status === "online" ? "https://cdn.discordapp.com/emojis/435603484616818708.png" : status === "dnd" ? "https://cdn.discordapp.com/emojis/435603483140292609.png" : status === "idle" ? "https://cdn.discordapp.com/emojis/435603483173978123.png" : "https://cdn.discordapp.com/emojis/435603483627094026.png";
         var devArray = [];
         client.users.forEach((user) => {
-            if (config.devs.includes(user.id)) {
+            if (client.config.devs.includes(user.id)) {
                 devArray.push(user.tag);
             }
         });
@@ -38,7 +37,7 @@ module.exports = {
 <:servers:440466171452719104> ${client.guilds.size}
 <:users:440466171712765970> ${client.users.size}
 <:dev:440466171029094400> ${devs}
-<:bot:436602778467696662> ${config.version}
+<:bot:436602778467696662> ${client.config.version}
 <:language:440466170852802568> Javascript
 <:library:440466171284815872> [discord.js](http://discord.js.org/)
 <:ram:440466171221770251> \`[0%]\` ${usage} \`[100%]\`

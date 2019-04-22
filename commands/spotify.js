@@ -41,7 +41,7 @@ module.exports = {
             } catch (error) {
                 return message.channel.send(new Discord.RichEmbed()
                     .setColor("FF0000")
-                    .setDescription(`**[\`❌\` ERROR]** Track not referenced.`)
+                    .setDescription("**[\`❌\` ERROR]** Track not referenced.")
                 );
             }
 

@@ -1,12 +1,12 @@
 {
   "name": "nootra",
-  "version": "2.1.0",
+  "version": "2.2.2",
   "description": "Nootra discord bot package",
   "main": "server.js",
   "repository": "https://github.com/Notavone/Nootra",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node release.js"
   },
   "author": "notadev <notavone@gmail.com> (https://www.npmjs.com/~notadev)",
   "engines": {

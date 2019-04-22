@@ -1,4 +1,4 @@
-# Nootra Issue
+# Nøøtra Issue
 
 ## Priority
 

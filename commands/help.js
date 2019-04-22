@@ -1,4 +1,3 @@
-const config = require("../storage/globalSettings.js");
 const Discord = require("discord.js");
 const axios = require("axios");
 
@@ -60,11 +59,12 @@ module.exports = {
             await message.channel.send(music);
             await message.channel.send(moderation);
             await message.channel.send(fun);
-            if (config.devs.includes(message.author.id)) {
+            if (client.config.devs.includes(message.author.id)) {
                 await message.channel.send(dev);
             }
-        } else if (args[0] && _command === "") return message.reply("command not found");
-        else if (args[0] && _command !== "") {
+        } else if (args[0] && _command === "") {
+            return message.reply("command not found");
+        } else if (args[0] && _command !== "") {
 
             const commandHelp = new Discord.RichEmbed()
                 .setAuthor(`${_command.name} Command`, "https://png.icons8.com/dusk/64/000000/settings.png")
@@ -74,11 +74,11 @@ module.exports = {
                 .addField("**__Usage :__**", _command.help === "" ? "SoonTM" : _command.help, false);
 
             await axios.get(`https://nootra.github.io/commands/${_command.doc ? _command.doc : _command.name}`).then((data) => {
-                commandHelp.addField("**__Online documentation__ :**", data.config.url, false);
+                commandHelp.addField("**__Online documentation__ :**", data.client.config.url, false);
             }).catch((error) => {
                 commandHelp.addField("**__Online documentation :__**", "Soon™", false);
             });
-            
+
             await message.channel.send(commandHelp);
         }
     }

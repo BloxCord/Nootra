@@ -1,4 +1,3 @@
-const config = require("../storage/globalSettings.js");
 const global = require("./global.js");
 const Discord = require("discord.js");
 
@@ -11,13 +10,13 @@ const Discord = require("discord.js");
 exports.newError = (client, error, fileName) => {
     if (error) {
         const channelLoggerError = client.channels.find((channel) => channel.id === "422507483479932928");
-        if (fileName) console.log(fileName);
+        if (fileName) {console.log(fileName);}
         console.log(error);
         return channelLoggerError.send(`
 - Date :
 ${global.newDate()}
 - Version (bot) <logger>
-(${config.version}) <${config.loggerVersion}>
+(${client.config.version}) <${client.config.loggerVersion}>
 - Error :
 ${error.toString()}`, {
             code: "diff"
@@ -26,17 +25,15 @@ ${error.toString()}`, {
 };
 
 exports.messageSent = (client, message) => {
-    const channelLoggerMsg = client.channels.find((channel) => channel.id === config.loggerMsgId);
+    const channelLoggerMsg = client.channels.find((channel) => channel.id === client.config.loggerMsgId);
 
     if (message.content.length > 700) {
         return;
     }
 
-    message.attachments.map((attach) => {
-
-        const embed = new Discord.RichEmbed()
-            .setColor("FF0000")
-            .setDescription(`
+    const embed = new Discord.RichEmbed()
+        .setColor("FF0000")
+        .setDescription(`
 \`\`\`diff
 - Pseudo (ID):
 ${message.author.username} (${message.author.id})
@@ -45,14 +42,16 @@ ${message.channel.type === "text" ? message.guild.name : ""} (${message.channel.
 - Date :
 ${global.newDate()}
 - Version (bot) <logger>
-(${config.version}) <${config.loggerVersion}>
+(${client.config.version}) <${client.config.loggerVersion}>
 - Message :
 ${message.content}
 \`\`\``);
-        attach.url !== "" ? embed.setImage(attach.url) : null;
 
-        channelLoggerMsg.send(embed);
+    message.attachments.map((attach) => {
+        embed.setImage(attach.url);
     });
+
+    channelLoggerMsg.send(embed);
 };
 
 exports.newTodo = (client, message, args) => {
@@ -61,7 +60,7 @@ exports.newTodo = (client, message, args) => {
 - Date :
 ${global.newDate()}
 - Version (bot) <logger>
-(${config.version}) <${config.loggerVersion}>
+(${client.config.version}) <${client.config.loggerVersion}>
 - To-do :
 ${args.join(" ")}
 - Pseudo (ID) :
@@ -93,7 +92,7 @@ ${guild.name} (${guild.id})
 - Date :
 ${global.newDate()}
 - Version (bot) <logger>
-(${config.version}) <${config.loggerVersion}>
+(${client.config.version}) <${client.config.loggerVersion}>
 \`\`\``)
     );
 };
@@ -111,7 +110,7 @@ ${guild.name} (${guild.id})
 - Date :
 ${global.newDate()}
 - Version (bot) <logger>
-(${config.version}) <${config.loggerVersion}>
+(${client.config.version}) <${client.config.loggerVersion}>
 \`\`\``)
     );
 };
@@ -131,7 +130,7 @@ ${member.guild.name} (${member.guild.id})
 - Date :
 ${global.newDate()}
 - Version (bot) <logger>
-(${config.version}) <${config.loggerVersion}>
+(${client.config.version}) <${client.config.loggerVersion}>
 \`\`\``)
     );
 };
@@ -151,7 +150,7 @@ ${member.guild.name} (${member.guild.id})
 - Date :
 ${global.newDate()}
 - Version (bot) <logger>
-(${config.version}) <${config.loggerVersion}>
+(${client.config.version}) <${client.config.loggerVersion}>
 \`\`\``)
     );
 };

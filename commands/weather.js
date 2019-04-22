@@ -12,7 +12,7 @@ module.exports = {
     help: "",
     cooldown: 5,
     execute(client, message, args) {
-        
+
         message.delete(5000).catch(() => {
             return;
         });
@@ -24,7 +24,9 @@ module.exports = {
             search: args.join(" "),
             degreeType: "C"
         }, (error, result) => {
-            if(error) return message.reply(error);
+            if (error) {
+                return message.reply(error);
+            }
             result.length === 0 ? message.reply("please use a valid city.") : result.length !== 0;
 
             var current = result[0].current;

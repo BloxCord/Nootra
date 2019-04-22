@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const global = require("../function/global.js");
-const config = require("../storage/globalSettings.js");
 
 module.exports = {
     name: "volume",
@@ -22,7 +20,7 @@ module.exports = {
         });
 
         var volume = serverQueue.volume <= 10 ? "[▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬▬" : serverQueue.volume <= 20 ? "[▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬▬" : serverQueue.volume <= 30 ? "[▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬▬" : serverQueue.volume <= 40 ? "[▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬▬" : serverQueue.volume <= 50 ? "[▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬▬" : serverQueue.volume <= 60 ? "[▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬▬" : serverQueue.volume <= 70 ? "[▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬▬" : serverQueue.volume <= 80 ? "[▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬▬" : serverQueue.volume <= 90 ? "[▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)▬" : "[▬▬▬▬▬▬▬▬▬▬](http://www.notavone.me/)";
-        if (config.devs.includes(message.author.id) || memberRole.find((role) => role.name === "DJ")) {
+        if (client.config.devs.includes(message.author.id) || memberRole.find((role) => role.name === "DJ")) {
             if (!message.member.voiceChannel) {
                 return message.reply("you're not in a vocal channel.");
             }

@@ -1,6 +1,8 @@
 # files
 .eslintrc.json
 storage/globalSettings.js
+storage/levels.sqlite
+Procfile
 
 # directories
 node_modules/
